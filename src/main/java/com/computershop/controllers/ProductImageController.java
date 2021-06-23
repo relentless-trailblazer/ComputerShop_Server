@@ -64,7 +64,17 @@ public class ProductImageController {
 			for (int i = 0; i < products.size(); i++) {
 				String productCategory = products.get(i).getCategory().getName().toLowerCase();
                 if (!products.get(i).getProductImages().isEmpty() && productCategory.compareToIgnoreCase(category)==0 ) {
-                	ProductWithImage productWithImage = new ProductWithImage(products.get(i), products.get(i).getProductImages());
+                	List<CloudinaryImage> cloudImages = new ArrayList<CloudinaryImage>();
+                	List<ProductImage> getProductImages = products.get(i).getProductImages();
+                	for(int j = 0; j < getProductImages.size(); j++) {
+                		CloudinaryImage cloudImage = new CloudinaryImage();
+                		cloudImage.setProductId(products.get(i).getId());
+                		cloudImage.setImageLink(getProductImages.get(i).getImageLink());
+                		cloudImage.setPublicId(getProductImages.get(i).getPublicId());
+                		cloudImages.add(cloudImage);
+                	}
+                	
+                	ProductWithImage productWithImage = new ProductWithImage(products.get(i), cloudImages);
                 	productsWithImages.add(productWithImage);
                 }
             }
@@ -77,23 +87,46 @@ public class ProductImageController {
 			Optional<Product> optionalProduct = productRepository.findById(productId);
 			if(!optionalProduct.isPresent())
 				throw new NotFoundException("Not found product with id " + productId +"!");
-			ProductWithImage productWithImages = new ProductWithImage(optionalProduct.get(), optionalProduct.get().getProductImages());
-            return ResponseEntity.ok().body(productWithImages);
+			
+			List<ProductImage> getProductImages = optionalProduct.get().getProductImages();
+			List<CloudinaryImage> cloudImages = new ArrayList<CloudinaryImage>();
+			
+        	for(int j = 0; j < getProductImages.size(); j++) {
+        		CloudinaryImage cloudImage = new CloudinaryImage();
+        		cloudImage.setProductId(optionalProduct.get().getId());
+        		cloudImage.setImageLink(getProductImages.get(j).getImageLink());
+        		cloudImage.setPublicId(getProductImages.get(j).getPublicId());
+        		cloudImages.add(cloudImage);
+        	}
+        	ProductWithImage productsWithImage = new ProductWithImage(optionalProduct.get(), cloudImages);
+			
+            return ResponseEntity.ok().body(productsWithImage);
 		
 		}
 		
 		if(search!=null) {
 			products = productRepository.findByNameContainingIgnoreCase(ConvertObject.fromSlugToString(search));
+			if(products.size()==0)
+				throw new NotFoundException("Not found product with name " + search);
 			List<ProductWithImage> productsWithImages = new ArrayList<ProductWithImage>();
 			for (int i = 0; i < products.size(); i++) {
-                if (!products.get(i).getProductImages().isEmpty()) {
-                	ProductWithImage productWithImage = new ProductWithImage(products.get(i), products.get(i).getProductImages());
-                	productsWithImages.add(productWithImage);
-                }
+            	List<CloudinaryImage> cloudImages = new ArrayList<CloudinaryImage>();
+            	List<ProductImage> getProductImages = products.get(i).getProductImages();
+            	for(int j = 0; j < getProductImages.size(); j++) {
+            		CloudinaryImage cloudImage = new CloudinaryImage();
+            		cloudImage.setProductId(products.get(i).getId());
+            		cloudImage.setImageLink(getProductImages.get(i).getImageLink());
+            		cloudImage.setPublicId(getProductImages.get(i).getPublicId());
+            		cloudImages.add(cloudImage);
+            	}
+            	
+            	ProductWithImage productWithImage = new ProductWithImage(products.get(i), cloudImages);
+            	productsWithImages.add(productWithImage);
             }
+           
 			if (productsWithImages.size() == 0) 
-                return ResponseEntity.noContent().build();
-            return ResponseEntity.ok().body(productsWithImages);
+			    return ResponseEntity.noContent().build();
+			return ResponseEntity.ok().body(productsWithImages);
 		
 		}
 		
@@ -101,16 +134,28 @@ public class ProductImageController {
 			List<com.computershop.dao.Category> categories = categoryRepository.findByNameContainingIgnoreCase(ConvertObject.fromSlugToString(category));
 				
 			for (com.computershop.dao.Category cat : categories) {
-			       for(Product prd : cat.getProducts()) {
-			       	products.add(prd);
-			       }    
+		       for(Product prd : cat.getProducts()) {
+		       		products.add(prd);
+		       }    
 			}
-			
+			if(products.size()==0)
+				throw new NotFoundException("Not found product with category " + category);
 			
 			List<ProductWithImage> productsWithImages = new ArrayList<ProductWithImage>();
 			for (int i = 0; i < products.size(); i++) {
-                if (!products.get(i).getProductImages().isEmpty()) {
-                	ProductWithImage productWithImage = new ProductWithImage(products.get(i), products.get(i).getProductImages());
+				String productCategory = products.get(i).getCategory().getName().toLowerCase();
+                if (!products.get(i).getProductImages().isEmpty() && productCategory.compareToIgnoreCase(category)==0 ) {
+                	List<CloudinaryImage> cloudImages = new ArrayList<CloudinaryImage>();
+                	List<ProductImage> getProductImages = products.get(i).getProductImages();
+                	for(int j = 0; j < getProductImages.size(); j++) {
+                		CloudinaryImage cloudImage = new CloudinaryImage();
+                		cloudImage.setProductId(products.get(i).getId());
+                		cloudImage.setImageLink(getProductImages.get(i).getImageLink());
+                		cloudImage.setPublicId(getProductImages.get(i).getPublicId());
+                		cloudImages.add(cloudImage);
+                	}
+                	
+                	ProductWithImage productWithImage = new ProductWithImage(products.get(i), cloudImages);
                 	productsWithImages.add(productWithImage);
                 }
             }
@@ -119,19 +164,32 @@ public class ProductImageController {
             return ResponseEntity.ok().body(productsWithImages);
 		
 		}
+		
 		products = productRepository.findAll();
+		
+		if(products.size()==0)
+			throw new NotFoundException("Not found any product ");
+		
 		List<ProductWithImage> productsWithImages = new ArrayList<ProductWithImage>();
 		for (int i = 0; i < products.size(); i++) {
-            if (!products.get(i).getProductImages().isEmpty()) {
-            	ProductWithImage productWithImage = new ProductWithImage(products.get(i), products.get(i).getProductImages());
-            	productsWithImages.add(productWithImage);
-            }
+        	List<CloudinaryImage> cloudImages = new ArrayList<CloudinaryImage>();
+        	List<ProductImage> getProductImages = products.get(i).getProductImages();
+        	for(int j = 0; j < getProductImages.size(); j++) {
+        		CloudinaryImage cloudImage = new CloudinaryImage();
+        		cloudImage.setProductId(products.get(i).getId());
+        		cloudImage.setImageLink(getProductImages.get(i).getImageLink());
+        		cloudImage.setPublicId(getProductImages.get(i).getPublicId());
+        		cloudImages.add(cloudImage);
+        	}
+        	
+        	ProductWithImage productWithImage = new ProductWithImage(products.get(i), cloudImages);
+        	productsWithImages.add(productWithImage);
+            
         }
-		
-		
-        if(productsWithImages.size()==0)
-        	return ResponseEntity.noContent().build();
+		if (productsWithImages.size() == 0) 
+            return ResponseEntity.noContent().build();
         return ResponseEntity.ok().body(productsWithImages);
+		
 	}
 
 	@GetMapping("/best-selling")
@@ -140,17 +198,25 @@ public class ProductImageController {
         if (products.size() == 0) {
             return ResponseEntity.noContent().build();
         }
-        List<ProductImage> productImages = new LinkedList<>();
-        for (int i = 0; i < products.size(); i++) {
-            ProductImage productImage = new ProductImage();
-            productImage.setImageId(products.get(i).getProductImages().get(0).getImageId());
-            productImage.setImageLink(products.get(i).getProductImages().get(0).getImageLink());
-            productImage.setCreateAt(products.get(i).getProductImages().get(0).getCreateAt());
-            productImage.setUpdateAt(products.get(i).getProductImages().get(0).getUpdateAt());
-            productImage.setProduct(products.get(i));
-            productImages.add(productImage);
+        List<ProductWithImage> productsWithImages = new ArrayList<ProductWithImage>();
+		for (int i = 0; i < products.size(); i++) {
+        	List<CloudinaryImage> cloudImages = new ArrayList<CloudinaryImage>();
+        	List<ProductImage> getProductImages = products.get(i).getProductImages();
+        	for(int j = 0; j < getProductImages.size(); j++) {
+        		CloudinaryImage cloudImage = new CloudinaryImage();
+        		cloudImage.setProductId(products.get(i).getId());
+        		cloudImage.setImageLink(getProductImages.get(i).getImageLink());
+        		cloudImage.setPublicId(getProductImages.get(i).getPublicId());
+        		cloudImages.add(cloudImage);
+        	}
+        	
+        	ProductWithImage productWithImage = new ProductWithImage(products.get(i), cloudImages);
+        	productsWithImages.add(productWithImage);
+            
         }
-        return ResponseEntity.ok().body(productImages);
+		if (productsWithImages.size() == 0) 
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(productsWithImages);
     }    
 	
 	@GetMapping("/{imageId}")

@@ -3,16 +3,15 @@ package com.computershop.dto;
 import java.util.List;
 
 import com.computershop.dao.Product;
-import com.computershop.dao.ProductImage;
 
 public class ProductWithImage {
 	private Product product;
-	private List<ProductImage> productImages;
+	private List<CloudinaryImage> cloudinaryImage;
 
-	public ProductWithImage(Product product, List<ProductImage> productImages) {
+	public ProductWithImage(Product product, List<CloudinaryImage> cloudinaryImage) {
 		super();
 		this.product = product;
-		this.productImages = productImages;
+		this.cloudinaryImage = cloudinaryImage;
 	}
 
 	public ProductWithImage() {
@@ -27,12 +26,12 @@ public class ProductWithImage {
 		this.product = product;
 	}
 
-	public List<ProductImage> getProductImages() {
-		return productImages;
+	public List<CloudinaryImage> getCloudinaryImage() {
+		return cloudinaryImage;
 	}
 
-	public void setProductImages(List<ProductImage> productImages) {
-		this.productImages = productImages;
+	public void setCloudinaryImage(List<CloudinaryImage> cloudinaryImage) {
+		this.cloudinaryImage = cloudinaryImage;
 	}
 
 }
