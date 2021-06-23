@@ -36,7 +36,7 @@ import com.computershop.repositories.ProductRepository;
 import com.computershop.repositories.productRepos.MonitorRepository;
 
 @RestController
-@RequestMapping("/api/products/monitors")
+@RequestMapping(value = "/api/products/monitors")
 public class MonitorController {
 	@Autowired
 	private MonitorRepository monitorRepository;
@@ -202,11 +202,11 @@ public class MonitorController {
 
 	}
 
-	@PatchMapping({ "monitorId" })
+	@PatchMapping({ "id" })
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
 	public ResponseEntity<?> editGraPhicCardById(@RequestBody MonitorDTO monitorDTO,
-			@PathVariable("monitorId") Long monitorId) {
-		Optional<Monitor> optionalMonitor = monitorRepository.findByMonitorId(monitorId);
+			@PathVariable("id") Long id) {
+		Optional<Monitor> optionalMonitor = monitorRepository.findById(id);
 		if (!optionalMonitor.isPresent()) {
 			throw new NotFoundException("Monitor not found");
 		}
@@ -264,10 +264,10 @@ public class MonitorController {
 		return ResponseEntity.status(HttpStatus.OK).body(newMonitor);
 	}
 	
-	@DeleteMapping("/{monitorId}")
+	@DeleteMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> deleteMonitor(@PathVariable("monitorId") Long monitorId) {
-		Optional<Monitor> optionalMonitor = monitorRepository.findByMonitorId(monitorId);
+	public ResponseEntity<?> deleteMonitor(@PathVariable("id") Long id) {
+		Optional<Monitor> optionalMonitor = monitorRepository.findById(id);
 		if (!optionalMonitor.isPresent()) {
 			throw new NotFoundException("Monitor not found");
 		}
@@ -277,7 +277,7 @@ public class MonitorController {
 		}
 
 		productRepository.deleteById(optionalMonitor.get().getId());
-		monitorRepository.deleteByMonitorId(optionalMonitor.get().getMonitorId());
+		monitorRepository.deleteById(optionalMonitor.get().getId());
 
 		return ResponseEntity.status(HttpStatus.OK).body(optionalMonitor.get());
 	}

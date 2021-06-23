@@ -1,15 +1,13 @@
 package com.computershop.repositories;
 
 import java.util.List;
-//import java.util.Optional;
-//import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 //import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.computershop.dao.Product;
-//import com.computershop.dao.product.Case;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -19,8 +17,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	
 	Product findByName(String name);
 	
+	@Query(value = "SELECT e.* FROM Products e ORDER BY e.quantity_sold DESC", nativeQuery = true)
 	List<Product> findAllByQuantitySoldByDesc();
-
+	
+	
+	
+	
 //	void deleteById(Optional<Case> optionalCase);
 	
 //	Optional<Product> findById(Long id);

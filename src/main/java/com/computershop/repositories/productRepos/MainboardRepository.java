@@ -13,8 +13,7 @@ public interface MainboardRepository extends JpaRepository<Mainboard, Long>{
 
 	List<Mainboard> findByNameContainingIgnoreCase(String searchConvert);
 
-	Optional<Mainboard> findByMainboardId(Long mainboardId);
+	Optional<Mainboard> findById(Long mainboardId);
 
-	void deleteByMainboardId(Long mainboardId);
 
 }

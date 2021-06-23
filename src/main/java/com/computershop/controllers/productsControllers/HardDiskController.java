@@ -36,7 +36,7 @@ import com.computershop.repositories.ProductRepository;
 import com.computershop.repositories.productRepos.HardDiskRepository;
 
 @RestController
-@RequestMapping("/api/products/hard-disks")
+@RequestMapping(value = "/api/products/hard-disks")
 public class HardDiskController {
 	@Autowired
 	private HardDiskRepository hardDiskRepository;
@@ -197,10 +197,10 @@ public class HardDiskController {
 		
 	}
 	
-	@PatchMapping({"hardDiskId"})
+	@PatchMapping({"id"})
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> editGraPhicCardById(@RequestBody HardDiskDTO hardDiskDTO, @PathVariable("hardDiskId") Long hardDiskId) {
-		Optional<HardDisk> optionalHardDisk = hardDiskRepository.findByHardDiskId(hardDiskId);
+	public ResponseEntity<?> editGraPhicCardById(@RequestBody HardDiskDTO hardDiskDTO, @PathVariable("id") Long id) {
+		Optional<HardDisk> optionalHardDisk = hardDiskRepository.findById(id);
 		if (!optionalHardDisk.isPresent()) {
 			throw new NotFoundException("HardDisk not found");
 		}
@@ -252,10 +252,10 @@ public class HardDiskController {
 		return ResponseEntity.status(HttpStatus.OK).body(newHardDisk);
 	}
 	
-	@DeleteMapping("/{hardDiskId}")
+	@DeleteMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> deleteHardDisk(@PathVariable("hardDiskId") Long hardDiskId) {
-		Optional<HardDisk> optionalHardDisk = hardDiskRepository.findByHardDiskId(hardDiskId);
+	public ResponseEntity<?> deleteHardDisk(@PathVariable("id") Long id) {
+		Optional<HardDisk> optionalHardDisk = hardDiskRepository.findById(id);
 		if (!optionalHardDisk.isPresent()) {
 			throw new NotFoundException("HardDisk not found");
 		}
@@ -265,7 +265,7 @@ public class HardDiskController {
 		}
 
 		productRepository.deleteById(optionalHardDisk.get().getId());
-		hardDiskRepository.deleteByHardDiskId(optionalHardDisk.get().getHardDiskId());
+		hardDiskRepository.deleteById(optionalHardDisk.get().getId());
 
 		return ResponseEntity.status(HttpStatus.OK).body(optionalHardDisk.get());
 	}

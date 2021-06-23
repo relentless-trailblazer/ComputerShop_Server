@@ -36,7 +36,7 @@ import com.computershop.repositories.ProductRepository;
 import com.computershop.repositories.productRepos.CPURepository;
 
 @RestController
-@RequestMapping("/api/products/cpus")
+@RequestMapping(value = "/api/products/cpus")
 public class CPUController {
 	@Autowired
 	private CPURepository cpuRepository;
@@ -212,10 +212,10 @@ public class CPUController {
 	}
 
 	
-	@PatchMapping("/{cpuId}")
+	@PatchMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> editCPU(@RequestBody CPUDTO cpuDTO, @PathVariable("cpuId") Long cpuId) {
-		Optional<CPU> optionalCpu = cpuRepository.findByCPUId(cpuId);
+	public ResponseEntity<?> editCPU(@RequestBody CPUDTO cpuDTO, @PathVariable("id") Long id) {
+		Optional<CPU> optionalCpu = cpuRepository.findById(id);
 		if (!optionalCpu.isPresent()) {
 			throw new NotFoundException("CPU not found");
 		}
@@ -286,10 +286,10 @@ public class CPUController {
 	}
 
 	
-	@DeleteMapping("/{cpuId}")
+	@DeleteMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> deleteCase(@PathVariable("cpuId") Long cpuId) {
-		Optional<CPU> optionalCPU = cpuRepository.findByCPUId(cpuId);
+	public ResponseEntity<?> deleteCase(@PathVariable("id") Long id) {
+		Optional<CPU> optionalCPU = cpuRepository.findById(id);
 		if (!optionalCPU.isPresent()) {
 			throw new NotFoundException("Product not found");
 		}
@@ -299,7 +299,7 @@ public class CPUController {
 		}
 
 		productRepository.deleteById(optionalCPU.get().getId());
-		cpuRepository.deleteByCPUId(optionalCPU.get().getCpuId());
+		cpuRepository.deleteById(optionalCPU.get().getId());
 
 		return ResponseEntity.status(HttpStatus.OK).body(optionalCPU.get());
 	}

@@ -36,7 +36,7 @@ import com.computershop.repositories.ProductRepository;
 import com.computershop.repositories.productRepos.MainboardRepository;
 
 @RestController
-@RequestMapping("/api/products/mainboards")
+@RequestMapping(value = "/api/products/mainboards")
 public class MainboardController {
 	@Autowired
 	private MainboardRepository mainboardRepository;
@@ -199,10 +199,10 @@ public class MainboardController {
 		
 	}
 	
-	@PatchMapping({"mainboardId"})
+	@PatchMapping({"id"})
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> editGraPhicCardById(@RequestBody MainboardDTO mainboardDTO, @PathVariable("mainboardId") Long mainboardId) {
-		Optional<Mainboard> optionalMainboard = mainboardRepository.findByMainboardId(mainboardId);
+	public ResponseEntity<?> editGraPhicCardById(@RequestBody MainboardDTO mainboardDTO, @PathVariable("id") Long id) {
+		Optional<Mainboard> optionalMainboard = mainboardRepository.findById(id);
 		if (!optionalMainboard.isPresent()) {
 			throw new NotFoundException("Mainboard not found");
 		}
@@ -258,10 +258,10 @@ public class MainboardController {
 		return ResponseEntity.status(HttpStatus.OK).body(newMainboard);
 	}
 	
-	@DeleteMapping("/{mainboardId}")
+	@DeleteMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> deleteMainboard(@PathVariable("mainboardId") Long mainboardId) {
-		Optional<Mainboard> optionalMainboard = mainboardRepository.findByMainboardId(mainboardId);
+	public ResponseEntity<?> deleteMainboard(@PathVariable("id") Long id) {
+		Optional<Mainboard> optionalMainboard = mainboardRepository.findById(id);
 		if (!optionalMainboard.isPresent()) {
 			throw new NotFoundException("Mainboard not found");
 		}
@@ -271,7 +271,7 @@ public class MainboardController {
 		}
 
 		productRepository.deleteById(optionalMainboard.get().getId());
-		mainboardRepository.deleteByMainboardId(optionalMainboard.get().getMainboardId());
+		mainboardRepository.deleteById(optionalMainboard.get().getId());
 
 		return ResponseEntity.status(HttpStatus.OK).body(optionalMainboard.get());
 	}

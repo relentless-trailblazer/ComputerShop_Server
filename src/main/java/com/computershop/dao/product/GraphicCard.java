@@ -1,21 +1,14 @@
 package com.computershop.dao.product;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
 import javax.persistence.Table;
 import com.computershop.dao.Product;
 
 @Entity
 @Table(name = "GraphicCards")
 public class GraphicCard extends Product {
-	@Id
-	@Column(name = "graphic_card_id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long graphicCardId;
 
 	@Column(name = "dimensions")
 	private String dimensions;
@@ -32,8 +25,6 @@ public class GraphicCard extends Product {
 	@Column(name = "voltage")
 	private String voltage;
 
-
-
 	public GraphicCard(Product product) {
 		super(product.getId(), product.getName(), product.getBrand(), product.getProductImages(), product.getRatings(),
 				product.getCategory(), product.getManufactures(), product.getDescription(), product.getPrice(),
@@ -42,12 +33,13 @@ public class GraphicCard extends Product {
 
 	}
 
-	public GraphicCard(Product product, Long id2, String dimensions, String weight, String vGAMemory, String bandwidth, String voltage) {
+	public GraphicCard(Product product, String dimensions, String weight, String vGAMemory, String bandwidth,
+			String voltage) {
 		super(product.getId(), product.getName(), product.getBrand(), product.getProductImages(), product.getRatings(),
 				product.getCategory(), product.getManufactures(), product.getDescription(), product.getPrice(),
 				product.getSaleOff(), product.getAmount(), product.getQuantitySold(), product.getWarranty(),
 				product.getCreateAt(), product.getUpdateAt(), product.getOrderItems());
-		this.graphicCardId = id2;
+
 		this.dimensions = dimensions;
 		this.weight = weight;
 		this.VGAMemory = vGAMemory;
@@ -55,18 +47,8 @@ public class GraphicCard extends Product {
 		this.voltage = voltage;
 	}
 
-	
-
 	public GraphicCard() {
 		super();
-	}
-
-	public Long getGraphicCardId() {
-		return graphicCardId;
-	}
-
-	public void setGraphicCardId(Long id) {
-		this.graphicCardId = id;
 	}
 
 	public String getDimensions() {

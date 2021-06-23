@@ -38,7 +38,7 @@ import com.computershop.repositories.productRepos.CaseRepository;
 
 
 @RestController
-@RequestMapping("/api/products/cases")
+@RequestMapping(value = "/api/products/cases")
 public class CaseController {
 	@Autowired
 	private CaseRepository caseRepository;
@@ -203,10 +203,10 @@ public class CaseController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(listCase);
 	}
 
-	@PatchMapping("/{caseId}")
+	@PatchMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> editCase(@RequestBody CaseDTO caseDTO, @PathVariable("caseId") Long caseId) {
-		Optional<Case> optionalCase = caseRepository.findByCaseId(caseId);
+	public ResponseEntity<?> editCase(@RequestBody CaseDTO caseDTO, @PathVariable("id") Long id) {
+		Optional<Case> optionalCase = caseRepository.findById(id);
 		if (!optionalCase.isPresent()) {
 			throw new NotFoundException("Case not found");
 		}
@@ -261,10 +261,10 @@ public class CaseController {
 		return ResponseEntity.status(HttpStatus.OK).body(newCase);
 	}
 	
-    @DeleteMapping("/{caseId}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-    public ResponseEntity<?> deleteCase(@PathVariable("CaseId") Long caseId) {
-        Optional<Case> optionalCase = caseRepository.findByCaseId(caseId);
+    public ResponseEntity<?> deleteCase(@PathVariable("id") Long id) {
+        Optional<Case> optionalCase = caseRepository.findById(id);
         if (!optionalCase.isPresent()) {
             throw new NotFoundException("Product not found");
         }
@@ -274,7 +274,7 @@ public class CaseController {
         }
         
         productRepository.deleteById(optionalCase.get().getId());
-        caseRepository.deleteByCaseId(optionalCase.get().getCaseId());
+        caseRepository.deleteById(optionalCase.get().getId());
         return ResponseEntity.status(HttpStatus.OK).body(optionalCase.get());
     }
 }

@@ -2,9 +2,6 @@ package com.computershop.dao.product;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Nationalized;
@@ -14,10 +11,7 @@ import com.computershop.dao.Product;
 @Entity
 @Table(name = "Cases")
 public class Case extends Product {
-	@Id
-	@Column(name = "case_id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long caseId;
+
 
 	@Column(name = "dimensions")
 	private String dimensions;
@@ -49,13 +43,13 @@ public class Case extends Product {
 
 	}
 
-	public Case(Product product, Long caseId, String dimensions, String material, String type, String color,
+	public Case(Product product, String dimensions, String material, String type, String color,
 			String weight, String coolingMethod) {
 		super(product.getId(), product.getName(), product.getBrand(), product.getProductImages(), product.getRatings(),
 				product.getCategory(), product.getManufactures(), product.getDescription(), product.getPrice(),
 				product.getSaleOff(), product.getAmount(), product.getQuantitySold(), product.getWarranty(),
 				product.getCreateAt(), product.getUpdateAt(), product.getOrderItems());
-		this.caseId = caseId;
+
 		this.dimensions = dimensions;
 		this.material = material;
 		this.type = type;
@@ -68,13 +62,6 @@ public class Case extends Product {
 		super();
 	}
 
-	public Long getCaseId() {
-		return caseId;
-	}
-
-	public void setCaseId(Long id) {
-		this.caseId = id;
-	}
 
 	public String getDimensions() {
 		return dimensions;

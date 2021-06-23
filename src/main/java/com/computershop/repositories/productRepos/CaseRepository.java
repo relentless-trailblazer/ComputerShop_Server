@@ -14,7 +14,6 @@ public interface CaseRepository extends JpaRepository<Case, Long>{
 
 	 List<Case> findByNameContainingIgnoreCase(String searchConvert);
 
-	Optional<Case> findByCaseId(Long caseId);
+	Optional<Case> findById(Long caseId);
 
-	void deleteByCaseId(Long caseId);
 }

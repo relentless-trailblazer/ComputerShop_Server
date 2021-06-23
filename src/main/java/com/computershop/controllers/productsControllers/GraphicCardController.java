@@ -36,7 +36,7 @@ import com.computershop.repositories.ProductRepository;
 import com.computershop.repositories.productRepos.GraphicCardRepository;
 
 @RestController
-@RequestMapping("/api/products/graphic-cards")
+@RequestMapping(value = "/api/products/graphic-cards")
 public class GraphicCardController {
 	@Autowired
 	private GraphicCardRepository graphicCardRepository;
@@ -197,10 +197,10 @@ public class GraphicCardController {
 		
 	}
 	
-	@PatchMapping({"graphicCardId"})
+	@PatchMapping({"id"})
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> editGraPhicCardById(@RequestBody GraphicCardDTO graphicCardDTO, @PathVariable("graphicCardId") Long graphicCardId) {
-		Optional<GraphicCard> optionalGraphicCard = graphicCardRepository.findByGraphicCardId(graphicCardId);
+	public ResponseEntity<?> editGraPhicCardById(@RequestBody GraphicCardDTO graphicCardDTO, @PathVariable("id") Long id) {
+		Optional<GraphicCard> optionalGraphicCard = graphicCardRepository.findById(id);
 		if (!optionalGraphicCard.isPresent()) {
 			throw new NotFoundException("GraphicCard not found");
 		}
@@ -252,10 +252,10 @@ public class GraphicCardController {
 		return ResponseEntity.status(HttpStatus.OK).body(newGraphicCard);
 	}
 	
-	@DeleteMapping("/{graphicCardId}")
+	@DeleteMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> deleteGraphicCard(@PathVariable("graphicCardId") Long graphicCardId) {
-		Optional<GraphicCard> optionalGraphicCard = graphicCardRepository.findByGraphicCardId(graphicCardId);
+	public ResponseEntity<?> deleteGraphicCard(@PathVariable("id") Long id) {
+		Optional<GraphicCard> optionalGraphicCard = graphicCardRepository.findById(id);
 		if (!optionalGraphicCard.isPresent()) {
 			throw new NotFoundException("Graphic card not found");
 		}
@@ -265,7 +265,7 @@ public class GraphicCardController {
 		}
 
 		productRepository.deleteById(optionalGraphicCard.get().getId());
-		graphicCardRepository.deleteByGraphicCardId(optionalGraphicCard.get().getGraphicCardId());
+		graphicCardRepository.deleteById(optionalGraphicCard.get().getId());
 
 		return ResponseEntity.status(HttpStatus.OK).body(optionalGraphicCard.get());
 	}

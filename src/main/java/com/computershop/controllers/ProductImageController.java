@@ -32,7 +32,7 @@ import com.computershop.repositories.ProductRepository;
 import com.computershop.services.CloudinaryService;
 
 @RestController
-@RequestMapping("/api/product-images")
+@RequestMapping(value = "/api/product-images")
 public class ProductImageController {
 	
 

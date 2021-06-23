@@ -14,8 +14,7 @@ public interface MonitorRepository extends JpaRepository<Monitor, Long>{
 
 	List<Monitor> findByNameContainingIgnoreCase(String searchConvert);
 
-	Optional<Monitor> findByMonitorId(Long monitorId);
+	Optional<Monitor> findById(Long monitorId);
 
-	void deleteByMonitorId(Long monitorId);
 
 }

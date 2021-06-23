@@ -12,7 +12,7 @@ import com.computershop.dao.Delivery;
 import com.computershop.repositories.DeliveryRepository;
 
 @RestController
-@RequestMapping("/api/deliveries")
+@RequestMapping(value = "/api/deliveries")
 public class DeliveryController {
 	
 	@Autowired

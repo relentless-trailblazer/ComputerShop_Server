@@ -43,7 +43,7 @@ public class SaleOrder {
 	@JoinColumn(name = "delivery_id")
 	private Delivery delivery;
 
-	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "saleOrder", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<OrderItem> orderItems;
 

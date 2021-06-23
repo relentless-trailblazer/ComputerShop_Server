@@ -5,9 +5,6 @@ package com.computershop.dao.product;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import com.computershop.dao.Product;
 
@@ -15,10 +12,7 @@ import com.computershop.dao.Product;
 @Table(name = "CPUs")
 public class CPU extends Product {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "cpu_id")
-	private Long cpuId;
+
 
 	@Column(name = "code_name", nullable = false)
 	private String codeName;
@@ -60,14 +54,14 @@ public class CPU extends Product {
 				product.getCreateAt(), product.getUpdateAt(), product.getOrderItems());
 	}
 
-	public CPU(Product product, Long id2, String codeName, String cPUFamily, String cores, String threads,
+	public CPU(Product product, String codeName, String cPUFamily, String cores, String threads,
 			String baseFrequency, String maxFrequency, String pCIExpress, String busSpeed, String tdp, String socket,
 			String cache) {
 		super(product.getId(), product.getName(), product.getBrand(), product.getProductImages(), product.getRatings(),
 				product.getCategory(), product.getManufactures(), product.getDescription(), product.getPrice(),
 				product.getSaleOff(), product.getAmount(), product.getQuantitySold(), product.getWarranty(),
 				product.getCreateAt(), product.getUpdateAt(), product.getOrderItems());
-		this.cpuId = id2;
+
 		this.codeName = codeName;
 		this.CPUFamily = cPUFamily;
 		this.cores = cores;
@@ -87,13 +81,7 @@ public class CPU extends Product {
 		super();
 	}
 
-	public Long getCpuId() {
-		return cpuId;
-	}
 
-	public void setCpuId(Long cpuId) {
-		this.cpuId = cpuId;
-	}
 
 	public String getCodeName() {
 		return codeName;

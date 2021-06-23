@@ -20,7 +20,7 @@ import com.computershop.helpers.ConvertObject;
 import com.computershop.repositories.ProductRepository;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping(value = "/api/products")
 @Transactional(rollbackFor = Exception.class)
 public class ProductController {
 

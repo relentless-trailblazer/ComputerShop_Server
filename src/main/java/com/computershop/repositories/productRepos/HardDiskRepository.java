@@ -13,8 +13,7 @@ public interface HardDiskRepository extends JpaRepository<HardDisk, Long>{
 
 	List<HardDisk> findByNameContainingIgnoreCase(String name);
 
-	Optional<HardDisk> findByHardDiskId(Long hardDiskId);
+	Optional<HardDisk> findById(Long hardDiskId);
 
-	void deleteByHardDiskId(Long hardDiskId);
 
 }

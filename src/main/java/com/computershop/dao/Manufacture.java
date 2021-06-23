@@ -29,9 +29,9 @@ public class Manufacture {
 	@Column(name = "manufacture_id")
 	private Long manufactureId;
 	
-	@Column(name = "name", nullable = false, unique = true)
+	@Column(name = "manufacture_name", nullable = false)
 	@Nationalized
-	private String name;
+	private String manufactureName;
 	
 	@Column(name = "name", nullable = false)
 	@Nationalized
@@ -47,11 +47,11 @@ public class Manufacture {
 	@UpdateTimestamp
 	private Timestamp updateAt;
 
-	public Manufacture(Long manufactureId, String name, String nation, List<Product> products, Timestamp createAt,
+	public Manufacture(Long manufactureId, String manufactureName, String nation, List<Product> products, Timestamp createAt,
 			Timestamp updateAt) {
 		super();
 		this.manufactureId = manufactureId;
-		this.name = name;
+		this.manufactureName = manufactureName;
 		this.nation = nation;
 		this.products = products;
 		this.createAt = createAt;
@@ -70,12 +70,12 @@ public class Manufacture {
 		this.manufactureId = manufactureId;
 	}
 
-	public String getName() {
-		return name;
+	public String getManufactureName() {
+		return manufactureName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setManufactureName(String manufactureName) {
+		this.manufactureName = manufactureName;
 	}
 
 

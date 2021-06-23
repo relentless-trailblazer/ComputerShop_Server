@@ -13,9 +13,9 @@ import com.computershop.dao.Manufacture;
 public interface ManufactureRepository extends JpaRepository<Manufacture, Long>{
 	Optional<Manufacture> findByManufactureId(Long manufactureId);
 	
-	Manufacture findByName(String name);
+	Manufacture findByManufactureName(String name);
 
-	List<Manufacture> findByNameContainingIgnoreCase(String name);
+	List<Manufacture> findByManufactureNameContainingIgnoreCase(String name);
 	
 
 }

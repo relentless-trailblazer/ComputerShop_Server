@@ -11,10 +11,9 @@ import com.computershop.dao.product.Ram;
 @Repository
 public interface RamRepository extends JpaRepository<Ram, Long>{
 
-	List<Ram> findByNameContainingIgnoreRam(String searchConvert);
+	Optional<Ram> findById(Long ramId);
 
-	Optional<Ram> findByRamId(Long ramId);
+	List<Ram> findByNameContainingIgnoreCase(String searchConvert);
 
-	void deleteByRamId(Long ramId);
 
 }

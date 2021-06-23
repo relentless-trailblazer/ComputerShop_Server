@@ -28,7 +28,7 @@ import com.computershop.repositories.DeliveryRepository;
 import com.computershop.repositories.SaleOrderRepository;
 
 @RestController
-@RequestMapping("/api/sale-orders")
+@RequestMapping(value = "/api/sale-orders")
 public class SaleOrderController {
 	@Autowired
 	private SaleOrderRepository saleOrderRepository;

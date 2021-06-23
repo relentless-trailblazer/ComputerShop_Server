@@ -36,7 +36,7 @@ import com.computershop.repositories.ProductRepository;
 import com.computershop.repositories.productRepos.PowerSupplyRepository;
 
 @RestController
-@RequestMapping("/api/products/power-supplies")
+@RequestMapping(value = "/api/products/power-supplies")
 public class PowerSupplyController {
 	@Autowired
 	private PowerSupplyRepository powerSupplyRepository;
@@ -199,10 +199,10 @@ public class PowerSupplyController {
 		
 	}
 
-	@PatchMapping({"powerSupplyId"})
+	@PatchMapping({"id"})
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> editGraPhicCardById(@RequestBody PowerSupplyDTO powerSupplyDTO, @PathVariable("powerSupplyId") Long powerSupplyId) {
-		Optional<PowerSupply> optionalPowerSupply = powerSupplyRepository.findByPowerSupplyId(powerSupplyId);
+	public ResponseEntity<?> editGraPhicCardById(@RequestBody PowerSupplyDTO powerSupplyDTO, @PathVariable("id") Long id) {
+		Optional<PowerSupply> optionalPowerSupply = powerSupplyRepository.findById(id);
 		if (!optionalPowerSupply.isPresent()) {
 			throw new NotFoundException("PowerSupply not found");
 		}
@@ -255,10 +255,10 @@ public class PowerSupplyController {
 	}
 	
 	
-	@DeleteMapping("/{powerSupplyId}")
+	@DeleteMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> deletePowerSupply(@PathVariable("powerSupplyId") Long powerSupplyId) {
-		Optional<PowerSupply> optionalPowerSupply = powerSupplyRepository.findByPowerSupplyId(powerSupplyId);
+	public ResponseEntity<?> deletePowerSupply(@PathVariable("id") Long id) {
+		Optional<PowerSupply> optionalPowerSupply = powerSupplyRepository.findById(id);
 		if (!optionalPowerSupply.isPresent()) {
 			throw new NotFoundException("PowerSupply not found");
 		}
@@ -268,7 +268,7 @@ public class PowerSupplyController {
 		}
 
 		productRepository.deleteById(optionalPowerSupply.get().getId());
-		powerSupplyRepository.deleteByPowerSupplyId(optionalPowerSupply.get().getPowerSupplyId());
+		powerSupplyRepository.deleteById(optionalPowerSupply.get().getId());
 
 		return ResponseEntity.status(HttpStatus.OK).body(optionalPowerSupply.get());
 	}

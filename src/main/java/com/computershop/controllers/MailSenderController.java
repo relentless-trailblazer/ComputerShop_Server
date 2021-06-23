@@ -22,7 +22,7 @@ import com.computershop.helpers.Validate;
 import com.computershop.models.Email;
 
 @RestController
-@RequestMapping("/api/mail")
+@RequestMapping(value = "/api/mail")
 public class MailSenderController {
 	
 	@Autowired

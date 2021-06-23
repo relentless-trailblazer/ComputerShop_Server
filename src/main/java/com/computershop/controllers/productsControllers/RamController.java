@@ -36,7 +36,7 @@ import com.computershop.repositories.ProductRepository;
 import com.computershop.repositories.productRepos.RamRepository;
 
 @RestController
-@RequestMapping("/api/products/rams")
+@RequestMapping(value = "/api/products/rams")
 public class RamController {
 	@Autowired
 	private RamRepository ramRepository;
@@ -55,7 +55,7 @@ public class RamController {
 			@RequestParam(name = "search", required = false) String search) {
 		if (search != null) {
 			String searchConvert = ConvertObject.fromSlugToString(search);
-			List<Ram> listRams = ramRepository.findByNameContainingIgnoreRam(searchConvert);
+			List<Ram> listRams = ramRepository.findByNameContainingIgnoreCase(searchConvert);
 			if (listRams.size() == 0) {
 				return ResponseEntity.noContent().build();
 			}
@@ -204,10 +204,10 @@ public class RamController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(listRam);
 	}
 	
-	@PatchMapping("/{ramId}")
+	@PatchMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> editRam(@RequestBody RamDTO ramDTO, @PathVariable("ramId") Long ramId) {
-		Optional<Ram> optionalRam = ramRepository.findByRamId(ramId);
+	public ResponseEntity<?> editRam(@RequestBody RamDTO ramDTO, @PathVariable("id") Long id) {
+		Optional<Ram> optionalRam = ramRepository.findById(id);
 		if (!optionalRam.isPresent()) {
 			throw new NotFoundException("Ram not found");
 		}
@@ -260,10 +260,10 @@ public class RamController {
 		return ResponseEntity.status(HttpStatus.OK).body(newRam);
 	}
 	
-	@DeleteMapping("/{ramId}")
+	@DeleteMapping("/{id}")
     @PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-    public ResponseEntity<?> deleteRam(@PathVariable("RamId") Long ramId) {
-        Optional<Ram> optionalRam = ramRepository.findByRamId(ramId);
+    public ResponseEntity<?> deleteRam(@PathVariable("id") Long id) {
+        Optional<Ram> optionalRam = ramRepository.findById(id);
         if (!optionalRam.isPresent()) {
             throw new NotFoundException("Product not found");
         }
@@ -273,7 +273,7 @@ public class RamController {
         }
         
         productRepository.deleteById(optionalRam.get().getId());
-        ramRepository.deleteByRamId(optionalRam.get().getRamId());
+        ramRepository.deleteById(optionalRam.get().getId());
         return ResponseEntity.status(HttpStatus.OK).body(optionalRam.get());
     }
 	

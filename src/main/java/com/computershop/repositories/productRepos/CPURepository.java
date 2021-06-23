@@ -13,8 +13,7 @@ public interface CPURepository extends JpaRepository<CPU, Long>{
 
 	List<CPU> findByNameContainingIgnoreCase(String searchConvert);
 
-	Optional<CPU> findByCPUId(Long cpuId);
+	Optional<CPU> findById(Long cpuId);
 
-	void deleteByCPUId(Long cpuId);
 
 }

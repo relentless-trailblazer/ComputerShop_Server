@@ -8,8 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
@@ -21,12 +20,7 @@ import com.computershop.repositories.DeliveryRepository;
 import com.computershop.repositories.UserRepository;
 
 @SpringBootApplication
-//@ComponentScan(basePackages = {"com.computershop.repositories", 
-//								"com.computershop.services",
-//								"com.computershop.utils",
-//								"com.computershop.filters",
-//								"com.computershop.repositories.productRepos"})
-//@EnableJpaRepositories(basePackages = {"com.computershop.repositories", "com.computershop.repositories.productRepos"})
+
 public class ComputerShopServerApplication implements CommandLineRunner {
 
 	@Value("${user.first_name}")
@@ -85,11 +79,11 @@ public class ComputerShopServerApplication implements CommandLineRunner {
 		}
 
 		if (deliveryRepository.count() == 0) {
-			Delivery delivery1 = new Delivery(null, "DaThemVaoGio", "Đã thêm vào giỏ", null, null, null);
-			Delivery delivery2 = new Delivery(null, "ChoXacNhan", "Chờ xác nhận", null, null, null);
-			Delivery delivery3 = new Delivery(null, "DangGiaoHang", "Đang giao hàng", null, null, null);
-			Delivery delivery4 = new Delivery(null, "DaGiao", "Đã giao", null, null, null);
-			Delivery delivery5 = new Delivery(null, "DaHuy", "Đã hủy", null, null, null);
+			Delivery delivery1 = new Delivery(new Long(1), "DaThemVaoGio", "Đã thêm vào giỏ", null, null, null);
+			Delivery delivery2 = new Delivery(new Long(2), "ChoXacNhan", "Chờ xác nhận", null, null, null);
+			Delivery delivery3 = new Delivery(new Long(3), "DangGiaoHang", "Đang giao hàng", null, null, null);
+			Delivery delivery4 = new Delivery(new Long(4), "DaGiao", "Đã giao", null, null, null);
+			Delivery delivery5 = new Delivery(new Long(5), "DaHuy", "Đã hủy", null, null, null);
 			deliveryRepository.saveAll(Arrays.asList(delivery1, delivery2, delivery3, delivery4, delivery5));
 		}
 		

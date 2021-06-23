@@ -2,19 +2,12 @@ package com.computershop.dao.product;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import com.computershop.dao.Product;
 
 @Entity
 @Table(name = "HardDisks")
 public class HardDisk extends Product {
-	@Id
-	@Column(name = "hard_disk_id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long hardDiskId;
 
 	@Column(name = "interface_type")
 	private String interfaceType;
@@ -39,13 +32,12 @@ public class HardDisk extends Product {
 
 	}
 
-	public HardDisk(Product product, Long id2, String interfaceType, String cache, String capacity, String style,
-			String size) {
+	public HardDisk(Product product, String interfaceType, String cache, String capacity, String style, String size) {
 		super(product.getId(), product.getName(), product.getBrand(), product.getProductImages(), product.getRatings(),
 				product.getCategory(), product.getManufactures(), product.getDescription(), product.getPrice(),
 				product.getSaleOff(), product.getAmount(), product.getQuantitySold(), product.getWarranty(),
 				product.getCreateAt(), product.getUpdateAt(), product.getOrderItems());
-		this.hardDiskId = id2;
+
 		this.interfaceType = interfaceType;
 		this.cache = cache;
 		this.capacity = capacity;
@@ -55,14 +47,6 @@ public class HardDisk extends Product {
 
 	public HardDisk() {
 		super();
-	}
-
-	public Long getHardDiskId() {
-		return hardDiskId;
-	}
-
-	public void setHardDiskId(Long id) {
-		this.hardDiskId = id;
 	}
 
 	public String getInterfaceType() {

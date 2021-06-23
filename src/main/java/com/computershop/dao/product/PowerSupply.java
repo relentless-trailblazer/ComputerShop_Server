@@ -2,19 +2,14 @@ package com.computershop.dao.product;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
 import javax.persistence.Table;
 
 import com.computershop.dao.Product;
+
 @Entity
 @Table(name = "PowerSupplies")
 public class PowerSupply extends Product {
-	@Id
-	@Column(name = "power_supply_id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long powerSupplyId;
 
 	@Column(name = "connector_type")
 	private String connectorType; // Sata/Data
@@ -39,13 +34,13 @@ public class PowerSupply extends Product {
 
 	}
 
-	public PowerSupply(Product product, Long id2, String connectorType, String dimentions, String inputVoltage,
+	public PowerSupply(Product product, String connectorType, String dimentions, String inputVoltage,
 			String ratedCurrent, String outputVoltage) {
 		super(product.getId(), product.getName(), product.getBrand(), product.getProductImages(), product.getRatings(),
 				product.getCategory(), product.getManufactures(), product.getDescription(), product.getPrice(),
 				product.getSaleOff(), product.getAmount(), product.getQuantitySold(), product.getWarranty(),
 				product.getCreateAt(), product.getUpdateAt(), product.getOrderItems());
-		this.powerSupplyId = id2;
+
 		this.connectorType = connectorType;
 		this.dimentions = dimentions;
 		this.inputVoltage = inputVoltage;
@@ -53,17 +48,8 @@ public class PowerSupply extends Product {
 		this.outputVoltage = outputVoltage;
 	}
 
-
 	public PowerSupply() {
 		super();
-	}
-
-	public Long getPowerSupplyId() {
-		return powerSupplyId;
-	}
-
-	public void setPowerSupplyId(Long id) {
-		this.powerSupplyId = id;
 	}
 
 	public String getConnectorType() {

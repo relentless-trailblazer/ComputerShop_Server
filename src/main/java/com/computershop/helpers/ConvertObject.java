@@ -52,7 +52,7 @@ public class ConvertObject {
     
     public static Manufacture fromManufactureDTOToDAO(ManufactureDTO manufactureDTO) {
 		Manufacture manufacture = new Manufacture();
-		manufacture.setName(manufactureDTO.getName());
+		manufacture.setManufactureName(manufactureDTO.getName());
 		manufacture.setNation(manufactureDTO.getNation());
 		return manufacture;
     }

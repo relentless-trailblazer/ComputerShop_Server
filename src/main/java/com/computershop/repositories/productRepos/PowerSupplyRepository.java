@@ -13,8 +13,7 @@ public interface PowerSupplyRepository extends JpaRepository<PowerSupply, Long>{
 
 	List<PowerSupply> findByNameContainingIgnoreCase(String searchConvert);
 
-	Optional<PowerSupply> findByPowerSupplyId(Long powerSupplyId);
+	Optional<PowerSupply> findById(Long powerSupplyId);
 
-	void deleteByPowerSupplyId(Long powerSupplyId);
 
 }

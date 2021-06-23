@@ -1,11 +1,8 @@
 package com.computershop.dao.product;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
 import javax.persistence.Table;
 
 import com.computershop.dao.Product;
@@ -13,10 +10,6 @@ import com.computershop.dao.Product;
 @Entity
 @Table(name = "Rams")
 public class Ram extends Product {
-	@Id
-	@Column(name = "ram_id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long ramId;
 
 	@Column(name = "part_number")
 	private String partNumber; // Mã SP
@@ -41,13 +34,12 @@ public class Ram extends Product {
 
 	}
 
-	public Ram(Product product, Long id2, String partNumber, String capacity, String dDR, String typeOfBus,
-			String dimmType) {
+	public Ram(Product product, String partNumber, String capacity, String dDR, String typeOfBus, String dimmType) {
 		super(product.getId(), product.getName(), product.getBrand(), product.getProductImages(), product.getRatings(),
 				product.getCategory(), product.getManufactures(), product.getDescription(), product.getPrice(),
 				product.getSaleOff(), product.getAmount(), product.getQuantitySold(), product.getWarranty(),
 				product.getCreateAt(), product.getUpdateAt(), product.getOrderItems());
-		this.ramId = id2;
+
 		this.partNumber = partNumber;
 		this.capacity = capacity;
 		this.DDR = dDR;
@@ -57,14 +49,6 @@ public class Ram extends Product {
 
 	public Ram() {
 		super();
-	}
-
-	public Long getRamId() {
-		return ramId;
-	}
-
-	public void setRamId(Long id) {
-		this.ramId = id;
 	}
 
 	public String getPartNumber() {

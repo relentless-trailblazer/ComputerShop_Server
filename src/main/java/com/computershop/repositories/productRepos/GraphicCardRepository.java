@@ -13,8 +13,7 @@ public interface GraphicCardRepository extends JpaRepository<GraphicCard, Long>{
 
 	List<GraphicCard> findByNameContainingIgnoreCase(String searchConvert);
 
-	Optional<GraphicCard> findByGraphicCardId(Long graphicCardId);
+	Optional<GraphicCard> findById(Long graphicCardId);
 	
-	void deleteByGraphicCardId(Long graphicCardId);
 
 }
