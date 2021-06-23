@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 //import com.cloudinary.Cloudinary;
 import com.computershop.dao.Product;
 import com.computershop.dao.ProductImage;
+import com.computershop.dto.CloudinaryImage;
 import com.computershop.dto.ProductWithImage;
 import com.computershop.exceptions.NotFoundException;
 import com.computershop.helpers.ConvertObject;
@@ -116,10 +119,19 @@ public class ProductImageController {
             return ResponseEntity.ok().body(productsWithImages);
 		
 		}
+		products = productRepository.findAll();
+		List<ProductWithImage> productsWithImages = new ArrayList<ProductWithImage>();
+		for (int i = 0; i < products.size(); i++) {
+            if (!products.get(i).getProductImages().isEmpty()) {
+            	ProductWithImage productWithImage = new ProductWithImage(products.get(i), products.get(i).getProductImages());
+            	productsWithImages.add(productWithImage);
+            }
+        }
 		
-        if(products.size()==0)
+		
+        if(productsWithImages.size()==0)
         	return ResponseEntity.noContent().build();
-        return ResponseEntity.ok().body(products);
+        return ResponseEntity.ok().body(productsWithImages);
 	}
 
 	@GetMapping("/best-selling")
@@ -166,6 +178,44 @@ public class ProductImageController {
         return ResponseEntity.status(201).body(productImages);
     }
 	
+    @PostMapping("/cloud-images")
+    @Transactional(rollbackFor = Exception.class)
+    @PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
+    public ResponseEntity<?> addImageFromCloudinary(@RequestBody CloudinaryImage cloudImage) throws IOException {
+    	Optional<Product> optionalProduct = productRepository.findById(cloudImage.getProductId());
+    	if(optionalProduct.get()==null)
+    		throw new NotFoundException("Not found product with id "+cloudImage.getProductId() );
+    	ProductImage newProductImage = new ProductImage();
+    	newProductImage.setImageLink(cloudImage.getImageLink());
+    	newProductImage.setPublicId(cloudImage.getPublicId());
+    	newProductImage.setProduct(optionalProduct.get());
+    	
+    	ProductImage saveProductImage = productImageRepository.save(newProductImage);
+        return ResponseEntity.status(201).body(saveProductImage);
+    }
+    
+    @PostMapping("/cloud-images-collection")
+    @Transactional(rollbackFor = Exception.class)
+    @PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
+    public ResponseEntity<?> addImagesFromCloudinary(@RequestBody List<CloudinaryImage> cloudImages) throws IOException {
+    	List<ProductImage> listProductImages = new LinkedList<ProductImage>();
+    	for(int i = 0; i < cloudImages.size(); i++) {
+    		Optional<Product> optionalProduct = productRepository.findById(cloudImages.get(i).getProductId());
+        	if(optionalProduct.get()==null)
+        		throw new NotFoundException("Not found product with id "+cloudImages.get(i).getProductId() );
+        	ProductImage newProductImage = new ProductImage();
+        	newProductImage.setImageLink(cloudImages.get(i).getImageLink());
+        	newProductImage.setPublicId(cloudImages.get(i).getPublicId());
+        	newProductImage.setProduct(optionalProduct.get());
+        	
+        	listProductImages.add(newProductImage);
+    	}
+    	if(listProductImages.size()==0)
+    		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    	productImageRepository.saveAll(listProductImages);
+        return ResponseEntity.status(HttpStatus.CREATED).body(listProductImages);
+    }
+    
 
     @DeleteMapping("/{imageId}")
     @Transactional(rollbackFor = Exception.class)

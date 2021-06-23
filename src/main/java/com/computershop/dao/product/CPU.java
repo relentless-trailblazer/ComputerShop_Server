@@ -12,9 +12,7 @@ import com.computershop.dao.Product;
 @Table(name = "CPUs")
 public class CPU extends Product {
 
-
-
-	@Column(name = "code_name", nullable = false)
+	@Column(name = "code_name")
 	private String codeName;
 
 	@Column(name = "cpu_family")

@@ -39,7 +39,7 @@ import com.computershop.repositories.productRepos.PowerSupplyRepository;
 @RequestMapping(value = "/api/products/power-supplies")
 public class PowerSupplyController {
 	@Autowired
-	private PowerSupplyRepository powerSupplyRepository;
+	private PowerSupplyRepository powerSupplyRepos;
 
 	@Autowired
 	private ProductRepository productRepository;
@@ -54,7 +54,7 @@ public class PowerSupplyController {
 										@RequestParam(name = "search", required = false) String search) {
 		if (search != null) {
 			String searchConvert = ConvertObject.fromSlugToString(search);
-			List<PowerSupply> listPowerSupplies = powerSupplyRepository.findByNameContainingIgnoreCase(searchConvert);
+			List<PowerSupply> listPowerSupplies = powerSupplyRepos.findByNameContainingIgnoreCase(searchConvert);
 			if (listPowerSupplies.size() == 0) {
 				return ResponseEntity.noContent().build();
 			}
@@ -72,7 +72,7 @@ public class PowerSupplyController {
 		}
 		if (type != null) {
 			if (type.compareTo("without-image") == 0) {
-				List<PowerSupply> listPowerSupplies = powerSupplyRepository.findAll();
+				List<PowerSupply> listPowerSupplies = powerSupplyRepos.findAll();
 				if (listPowerSupplies.size() == 0) {
 					return ResponseEntity.noContent().build();
 				}
@@ -80,7 +80,7 @@ public class PowerSupplyController {
 			}
 		}
 		if (pageNum != null) {
-			Page<PowerSupply> page = powerSupplyRepository.findAll(PageRequest.of(pageNum.intValue(), 20));
+			Page<PowerSupply> page = powerSupplyRepos.findAll(PageRequest.of(pageNum.intValue(), 20));
 
 			List<PowerSupply> listPowerSupplies = page.getContent();
 			if (listPowerSupplies.size() == 0) {
@@ -98,7 +98,7 @@ public class PowerSupplyController {
 			return ResponseEntity.ok().body(listPowerSupplyDetail);
 		}
 
-		List<PowerSupply> listPowerSupplies = powerSupplyRepository.findAll();
+		List<PowerSupply> listPowerSupplies = powerSupplyRepos.findAll();
 		if (listPowerSupplies.size() == 0) {
 			return ResponseEntity.noContent().build();
 		}
@@ -116,7 +116,7 @@ public class PowerSupplyController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getPowerSupplyById(@PathVariable("id") Long id) {
-		Optional<PowerSupply> optionalPowerSupply = powerSupplyRepository.findById(id);
+		Optional<PowerSupply> optionalPowerSupply = powerSupplyRepos.findById(id);
 		PowerSupply powerSupplyFound = optionalPowerSupply.get();
 		if (powerSupplyFound == null) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -157,7 +157,7 @@ public class PowerSupplyController {
 		newPowerSupply.setOutputVoltage(powerSupplyDTO.getOutputVoltage());
 		newPowerSupply.setRatedCurrent(powerSupplyDTO.getRatedCurrent());
 
-		PowerSupply savePowerSupply = powerSupplyRepository.save(newPowerSupply);
+		PowerSupply savePowerSupply = powerSupplyRepos.save(newPowerSupply);
 		return ResponseEntity.status(HttpStatus.CREATED).body(savePowerSupply);
 	}
 	
@@ -192,7 +192,7 @@ public class PowerSupplyController {
 
 			listPowerSupplies.add(newPowerSupply);
 		}
-		powerSupplyRepository.saveAll(listPowerSupplies);
+		powerSupplyRepos.saveAll(listPowerSupplies);
 		if(listPowerSupplies.size()==0)
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		return ResponseEntity.status(HttpStatus.CREATED).body(listPowerSupplies);
@@ -202,7 +202,7 @@ public class PowerSupplyController {
 	@PatchMapping({"id"})
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
 	public ResponseEntity<?> editGraPhicCardById(@RequestBody PowerSupplyDTO powerSupplyDTO, @PathVariable("id") Long id) {
-		Optional<PowerSupply> optionalPowerSupply = powerSupplyRepository.findById(id);
+		Optional<PowerSupply> optionalPowerSupply = powerSupplyRepos.findById(id);
 		if (!optionalPowerSupply.isPresent()) {
 			throw new NotFoundException("PowerSupply not found");
 		}
@@ -249,7 +249,7 @@ public class PowerSupplyController {
 		if(powerSupplyDTO.getRatedCurrent()!=null) {
 			newPowerSupply.setRatedCurrent(powerSupplyDTO.getRatedCurrent().trim().replaceAll("\\s+", " "));
 		}
-		powerSupplyRepository.save(newPowerSupply);
+		powerSupplyRepos.save(newPowerSupply);
 		productRepository.save(newProduct);
 		return ResponseEntity.status(HttpStatus.OK).body(newPowerSupply);
 	}
@@ -258,7 +258,7 @@ public class PowerSupplyController {
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
 	public ResponseEntity<?> deletePowerSupply(@PathVariable("id") Long id) {
-		Optional<PowerSupply> optionalPowerSupply = powerSupplyRepository.findById(id);
+		Optional<PowerSupply> optionalPowerSupply = powerSupplyRepos.findById(id);
 		if (!optionalPowerSupply.isPresent()) {
 			throw new NotFoundException("PowerSupply not found");
 		}
@@ -268,7 +268,7 @@ public class PowerSupplyController {
 		}
 
 		productRepository.deleteById(optionalPowerSupply.get().getId());
-		powerSupplyRepository.deleteById(optionalPowerSupply.get().getId());
+		powerSupplyRepos.deleteById(optionalPowerSupply.get().getId());
 
 		return ResponseEntity.status(HttpStatus.OK).body(optionalPowerSupply.get());
 	}

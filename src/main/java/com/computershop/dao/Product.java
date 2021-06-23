@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Nationalized;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -59,6 +60,7 @@ public class Product {
 
 	@Column(name = "description")
 	@Nationalized
+	@Length(max = 300000)
 	private String description;
 
 	@Column(name = "price", nullable = false)
