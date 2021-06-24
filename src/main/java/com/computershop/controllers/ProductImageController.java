@@ -69,8 +69,8 @@ public class ProductImageController {
                 	for(int j = 0; j < getProductImages.size(); j++) {
                 		CloudinaryImage cloudImage = new CloudinaryImage();
                 		cloudImage.setProductId(products.get(i).getId());
-                		cloudImage.setImageLink(getProductImages.get(i).getImageLink());
-                		cloudImage.setPublicId(getProductImages.get(i).getPublicId());
+                		cloudImage.setImageLink(getProductImages.get(j).getImageLink());
+                		cloudImage.setPublicId(getProductImages.get(j).getPublicId());
                 		cloudImages.add(cloudImage);
                 	}
                 	
@@ -115,8 +115,8 @@ public class ProductImageController {
             	for(int j = 0; j < getProductImages.size(); j++) {
             		CloudinaryImage cloudImage = new CloudinaryImage();
             		cloudImage.setProductId(products.get(i).getId());
-            		cloudImage.setImageLink(getProductImages.get(i).getImageLink());
-            		cloudImage.setPublicId(getProductImages.get(i).getPublicId());
+            		cloudImage.setImageLink(getProductImages.get(j).getImageLink());
+            		cloudImage.setPublicId(getProductImages.get(j).getPublicId());
             		cloudImages.add(cloudImage);
             	}
             	
@@ -150,8 +150,8 @@ public class ProductImageController {
                 	for(int j = 0; j < getProductImages.size(); j++) {
                 		CloudinaryImage cloudImage = new CloudinaryImage();
                 		cloudImage.setProductId(products.get(i).getId());
-                		cloudImage.setImageLink(getProductImages.get(i).getImageLink());
-                		cloudImage.setPublicId(getProductImages.get(i).getPublicId());
+                		cloudImage.setImageLink(getProductImages.get(j).getImageLink());
+                		cloudImage.setPublicId(getProductImages.get(j).getPublicId());
                 		cloudImages.add(cloudImage);
                 	}
                 	
@@ -166,7 +166,6 @@ public class ProductImageController {
 		}
 		
 		products = productRepository.findAll();
-		
 		if(products.size()==0)
 			throw new NotFoundException("Not found any product ");
 		
@@ -177,8 +176,8 @@ public class ProductImageController {
         	for(int j = 0; j < getProductImages.size(); j++) {
         		CloudinaryImage cloudImage = new CloudinaryImage();
         		cloudImage.setProductId(products.get(i).getId());
-        		cloudImage.setImageLink(getProductImages.get(i).getImageLink());
-        		cloudImage.setPublicId(getProductImages.get(i).getPublicId());
+        		cloudImage.setImageLink(getProductImages.get(j).getImageLink());
+        		cloudImage.setPublicId(getProductImages.get(j).getPublicId());
         		cloudImages.add(cloudImage);
         	}
         	
@@ -205,8 +204,8 @@ public class ProductImageController {
         	for(int j = 0; j < getProductImages.size(); j++) {
         		CloudinaryImage cloudImage = new CloudinaryImage();
         		cloudImage.setProductId(products.get(i).getId());
-        		cloudImage.setImageLink(getProductImages.get(i).getImageLink());
-        		cloudImage.setPublicId(getProductImages.get(i).getPublicId());
+        		cloudImage.setImageLink(getProductImages.get(j).getImageLink());
+        		cloudImage.setPublicId(getProductImages.get(j).getPublicId());
         		cloudImages.add(cloudImage);
         	}
         	

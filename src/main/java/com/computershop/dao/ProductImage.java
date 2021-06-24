@@ -15,6 +15,8 @@ import org.hibernate.annotations.CreationTimestamp;
 //import org.hibernate.annotations.Nationalized;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name = "ProductImages")
@@ -33,6 +35,7 @@ public class ProductImage {
 	
 	@ManyToOne
 	@JoinColumn(name = "product_id")
+	@JsonIgnore
 	private Product product;
 	
 	@CreationTimestamp

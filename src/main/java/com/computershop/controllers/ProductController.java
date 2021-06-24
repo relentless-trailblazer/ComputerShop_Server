@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.computershop.dao.Product;
 import com.computershop.dao.ProductImage;
+import com.computershop.dto.CloudinaryImage;
+import com.computershop.dto.ProductWithImage;
 import com.computershop.helpers.ConvertObject;
 import com.computershop.repositories.ProductRepository;
 
@@ -71,20 +73,28 @@ public class ProductController {
         }
 
         List<Product> products = productRepository.findAll();
-        
-        List<ProductImage> listProductImages = new LinkedList<ProductImage>();
-
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getProductImages().isEmpty()) {
-                continue;
-            }
-            listProductImages.add(products.get(i).getProductImages().get(0));
-        }
-        
-
         if (products.size() == 0) {
             return ResponseEntity.noContent().build();
         }
+        List<ProductWithImage> listProductImages = new LinkedList<ProductWithImage>();
+        for (int i = 0; i < products.size(); i++) {
+        	ProductWithImage productWithImage = new ProductWithImage();
+        	productWithImage.setProduct(products.get(i));
+        	if (products.get(i).getProductImages().isEmpty()) {
+            	productWithImage.setCloudinaryImage(null);
+            }
+            List<CloudinaryImage> cloudinaryImages = new LinkedList<CloudinaryImage>();
+            for(int j = 0; j < products.get(i).getProductImages().size();j++ ) {
+            	CloudinaryImage cloudImage = new CloudinaryImage();
+            	cloudImage.setImageLink(products.get(i).getProductImages().get(j).getImageLink());
+            	cloudImage.setProductId(products.get(i).getId());
+            	cloudImage.setPublicId(products.get(i).getProductImages().get(j).getPublicId());
+            	cloudinaryImages.add(cloudImage);
+            }
+            productWithImage.setCloudinaryImage(cloudinaryImages);
+            listProductImages.add(productWithImage);
+        }
+        
         return ResponseEntity.ok().body(listProductImages);
     }
 

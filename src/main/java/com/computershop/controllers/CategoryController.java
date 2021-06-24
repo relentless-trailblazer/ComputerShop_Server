@@ -1,7 +1,6 @@
 package com.computershop.controllers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -24,9 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.computershop.dao.Category;
 import com.computershop.dao.Product;
-import com.computershop.dao.ProductImage;
-import com.computershop.dto.CloudinaryImage;
-import com.computershop.dto.ProductWithImage;
 import com.computershop.exceptions.DuplicateException;
 import com.computershop.exceptions.InvalidException;
 import com.computershop.exceptions.NotFoundException;
@@ -95,29 +91,14 @@ public class CategoryController {
             throw new NotFoundException("Not found category by : " + categoryName);
         }
         List<Product> products = new LinkedList<Product>();
-        List<CloudinaryImage> productImages = new LinkedList<CloudinaryImage>();
-        List<ProductWithImage> productsWithImages = new LinkedList<ProductWithImage>();
-        
         for(Category category : categories) {
-        	for(Product product : category.getProducts()) {
-        		products.add(product);
-        		CloudinaryImage cloudImage = new CloudinaryImage();
-        		cloudImage.setImageLink(product.getProductImages().get(0).getImageLink());
-        		cloudImage.setPublicId(product.getProductImages().get(0).getPublicId());
-        		cloudImage.setProductId(product.getId());
-        		productImages.add(cloudImage);
-        	}
+        	products.addAll(category.getProducts());
+        	
         }
-        for(int i = 0; i < products.size(); i++) {
-        	List<CloudinaryImage> a = new LinkedList<CloudinaryImage>();
-        	a.add(productImages.get(i));
-        	productsWithImages.add(new ProductWithImage(products.get(i), a ));
-        }
+        if(products.size()==0)
+        	return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         
-        
-        
-       
-        return ResponseEntity.ok().body(productsWithImages);
+        return ResponseEntity.ok().body(products);
     }
 
     @PostMapping

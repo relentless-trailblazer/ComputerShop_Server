@@ -102,7 +102,7 @@ public class AuthController {
 	
 	@PostMapping("/signup")
 	public ResponseEntity<?> signUp(@RequestBody SignUpDTO signUpDTO){
-		if(Validate.checkSignUp(signUpDTO)) {
+		if(!Validate.checkSignUp(signUpDTO)) {
 			throw new InvalidException("Invalid infomation!"); 
 		}
 		User oldUser = userRepository.findByUsername(signUpDTO.getUsername());
