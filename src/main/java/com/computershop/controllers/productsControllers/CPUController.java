@@ -98,9 +98,6 @@ public class CPUController {
 		}
 
 		List<CPU> listCpus = cpuRepository.findAll();
-		if (listCpus.size() == 0) {
-			return ResponseEntity.noContent().build();
-		}
 		List<CPUDetail> listCpuDetail = new LinkedList<CPUDetail>();
 		for (int i = 0; i < listCpus.size(); i++) {
 			CPU getCpu = listCpus.get(i);
@@ -146,9 +143,8 @@ public class CPUController {
 		Product product = ConvertObject.fromProductDTOToProductDAO(cpuDTO.getProductDTO());
 		product.setCategory(optionalCategory.get());
 		Validate.checkProduct(product);
-		Product saveProduct = productRepository.save(product);
 
-		CPU newCPU = new CPU(saveProduct);
+		CPU newCPU = new CPU(product);
 		newCPU.setCodeName(cpuDTO.getCodeName());
 		newCPU.setCache(cpuDTO.getCache());
 		newCPU.setCPUFamily(cpuDTO.getCPUFamily());
@@ -170,7 +166,7 @@ public class CPUController {
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
 	public ResponseEntity<?> createNewCPUs(@RequestBody List<CPUDTO> cpuDTO) {
 		List<CPU> listCPU = new LinkedList<CPU>();
-		for (int i = 0; i < listCPU.size(); i++) {
+		for (int i = 0; i < cpuDTO.size(); i++) {
 			Product oldProduct = productRepository.findByName(cpuDTO.get(i).getProductDTO().getName());
 			if (oldProduct != null) {
 				throw new DuplicateException("Product has already exists");
@@ -187,9 +183,8 @@ public class CPUController {
 			Product product = ConvertObject.fromProductDTOToProductDAO(cpuDTO.get(i).getProductDTO());
 			product.setCategory(optionalCategory.get());
 			Validate.checkProduct(product);
-			Product saveProduct = productRepository.save(product);
 
-			CPU newCPU = new CPU(saveProduct);
+			CPU newCPU = new CPU(product);
 			newCPU.setCodeName(cpuDTO.get(i).getCodeName());
 			newCPU.setCache(cpuDTO.get(i).getCache());
 			newCPU.setCPUFamily(cpuDTO.get(i).getCPUFamily());

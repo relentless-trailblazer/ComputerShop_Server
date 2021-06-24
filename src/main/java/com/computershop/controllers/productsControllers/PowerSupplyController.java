@@ -148,9 +148,8 @@ public class PowerSupplyController {
 		Product product = ConvertObject.fromProductDTOToProductDAO(powerSupplyDTO.getProductDTO());
 		product.setCategory(optionalCategory.get());
 		Validate.checkProduct(product);
-		Product saveProduct = productRepository.save(product);
 
-		PowerSupply newPowerSupply = new PowerSupply(saveProduct);
+		PowerSupply newPowerSupply = new PowerSupply(product);
 		newPowerSupply.setConnectorType(powerSupplyDTO.getConnectorType());
 		newPowerSupply.setDimentions(powerSupplyDTO.getDimentions());
 		newPowerSupply.setInputVoltage(powerSupplyDTO.getInputVoltage());
@@ -181,9 +180,8 @@ public class PowerSupplyController {
 			Product product = ConvertObject.fromProductDTOToProductDAO(powerSuppliesDTO.get(i).getProductDTO());
 			product.setCategory(optionalCategory.get());
 			Validate.checkProduct(product);
-			Product saveProduct = productRepository.save(product);
 
-			PowerSupply newPowerSupply = new PowerSupply(saveProduct);
+			PowerSupply newPowerSupply = new PowerSupply(product);
 			newPowerSupply.setConnectorType(powerSuppliesDTO.get(i).getConnectorType());
 			newPowerSupply.setDimentions(powerSuppliesDTO.get(i).getDimentions());
 			newPowerSupply.setInputVoltage(powerSuppliesDTO.get(i).getInputVoltage());

@@ -251,7 +251,8 @@ public class ProductImageController {
     	if(optionalProduct.get()==null)
     		throw new NotFoundException("Not found product with id "+cloudImage.getProductId() );
     	ProductImage newProductImage = new ProductImage();
-    	newProductImage.setImageLink(cloudImage.getImageLink());
+    	String link = cloudImage.getImageLink();
+    	newProductImage.setImageLink(link);
     	newProductImage.setPublicId(cloudImage.getPublicId());
     	newProductImage.setProduct(optionalProduct.get());
     	
@@ -269,8 +270,9 @@ public class ProductImageController {
         	if(optionalProduct.get()==null)
         		throw new NotFoundException("Not found product with id "+cloudImages.get(i).getProductId() );
         	ProductImage newProductImage = new ProductImage();
-        	newProductImage.setImageLink(cloudImages.get(i).getImageLink());
-        	newProductImage.setPublicId(cloudImages.get(i).getPublicId());
+        	String link = cloudImages.get(i).getImageLink();
+        	newProductImage.setImageLink(link);
+        	newProductImage.setPublicId(link.substring(link.indexOf("ComputerShop_Cloud")));
         	newProductImage.setProduct(optionalProduct.get());
         	
         	listProductImages.add(newProductImage);

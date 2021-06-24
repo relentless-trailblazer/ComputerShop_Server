@@ -150,9 +150,8 @@ public class RamController {
 		Product product = ConvertObject.fromProductDTOToProductDAO(ramDTO.getProductDTO());
 		product.setCategory(optionalCategory.get());
 		Validate.checkProduct(product);
-		Product saveProduct = productRepository.save(product);
 
-		Ram newRam = new Ram(saveProduct);
+		Ram newRam = new Ram(product);
 		newRam.setPartNumber(ramDTO.getPartNumber());
 		newRam.setCapacity(ramDTO.getCapacity());
 		newRam.setDimmType(ramDTO.getDimmType());
@@ -185,9 +184,8 @@ public class RamController {
 			Product product = ConvertObject.fromProductDTOToProductDAO(ramDTO.get(i).getProductDTO());
 			product.setCategory(optionalCategory.get());
 			Validate.checkProduct(product);
-			Product saveProduct = productRepository.save(product);
 
-			Ram newRam = new Ram(saveProduct);
+			Ram newRam = new Ram(product);
 			newRam.setPartNumber(ramDTO.get(i).getPartNumber());
 			newRam.setCapacity(ramDTO.get(i).getCapacity());
 			newRam.setDimmType(ramDTO.get(i).getDimmType());

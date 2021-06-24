@@ -21,8 +21,8 @@ public class OpenApiConfig {
 		server.url("https://computer-shop-hit.herokuapp.com/");
         return new OpenAPI()
                 .servers(listServer)
-                .info(new Info().title("Loda Application API")
-                                .description("Sample OpenAPI 3.0")
+                .info(new Info().title("Computer Shop Server")
+                                .description("OpenApi v3 for computer shop server")
                                 .contact(new Contact()
                                                  .email("tuanmc2885@gmail.com@gmail.com")
                                                  .name("tuan")

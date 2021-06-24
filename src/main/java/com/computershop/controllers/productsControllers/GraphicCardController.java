@@ -146,9 +146,8 @@ public class GraphicCardController {
 		Product product = ConvertObject.fromProductDTOToProductDAO(graphicCardDTO.getProductDTO());
 		product.setCategory(optionalCategory.get());
 		Validate.checkProduct(product);
-		Product saveProduct = productRepository.save(product);
 
-		GraphicCard newGraphicCard = new GraphicCard(saveProduct);
+		GraphicCard newGraphicCard = new GraphicCard(product);
 		newGraphicCard.setDimensions(graphicCardDTO.getDimensions());
 		newGraphicCard.setWeight(graphicCardDTO.getWeight());
 		newGraphicCard.setVGAMemory(graphicCardDTO.getVGAMemory());
@@ -179,9 +178,8 @@ public class GraphicCardController {
 			Product product = ConvertObject.fromProductDTOToProductDAO(graphicCardDTO.get(i).getProductDTO());
 			product.setCategory(optionalCategory.get());
 			Validate.checkProduct(product);
-			Product saveProduct = productRepository.save(product);
 
-			GraphicCard newGraphicCard = new GraphicCard(saveProduct);
+			GraphicCard newGraphicCard = new GraphicCard(product);
 			newGraphicCard.setDimensions(graphicCardDTO.get(i).getDimensions());
 			newGraphicCard.setWeight(graphicCardDTO.get(i).getWeight());
 			newGraphicCard.setVGAMemory(graphicCardDTO.get(i).getVGAMemory());

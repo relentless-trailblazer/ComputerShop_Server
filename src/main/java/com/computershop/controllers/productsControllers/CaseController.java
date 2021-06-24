@@ -148,9 +148,8 @@ public class CaseController {
 		Product product = ConvertObject.fromProductDTOToProductDAO(caseDTO.getProductDTO());
 		product.setCategory(optionalCategory.get());
 		Validate.checkProduct(product);
-		Product saveProduct = productRepository.save(product);
 
-		Case newCase = new Case(saveProduct);
+		Case newCase = new Case(product);
 		newCase.setDimensions(caseDTO.getDimensions());
 		newCase.setMaterial(caseDTO.getMaterial());
 		newCase.setType(caseDTO.getType());
@@ -183,9 +182,8 @@ public class CaseController {
 			Product product = ConvertObject.fromProductDTOToProductDAO(caseDTO.get(i).getProductDTO());
 			product.setCategory(optionalCategory.get());
 			Validate.checkProduct(product);
-			Product saveProduct = productRepository.save(product);
 
-			Case newCase = new Case(saveProduct);
+			Case newCase = new Case(product);
 			newCase.setDimensions(caseDTO.get(i).getDimensions());
 			newCase.setMaterial(caseDTO.get(i).getMaterial());
 			newCase.setType(caseDTO.get(i).getType());
@@ -266,7 +264,7 @@ public class CaseController {
     public ResponseEntity<?> deleteCase(@PathVariable("id") Long id) {
         Optional<Case> optionalCase = caseRepository.findById(id);
         if (!optionalCase.isPresent()) {
-            throw new NotFoundException("Product not found");
+            throw new NotFoundException("Case not found");
         }
 
         if (!optionalCase.get().getProductImages().isEmpty()) {

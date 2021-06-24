@@ -146,9 +146,8 @@ public class MonitorController {
 		Product product = ConvertObject.fromProductDTOToProductDAO(monitorDTO.getProductDTO());
 		product.setCategory(optionalCategory.get());
 		Validate.checkProduct(product);
-		Product saveProduct = productRepository.save(product);
 
-		Monitor newMonitor = new Monitor(saveProduct);
+		Monitor newMonitor = new Monitor(product);
 		newMonitor.setColor(monitorDTO.getColor());
 		newMonitor.setAspectRatio(monitorDTO.getAspectRatio());
 		newMonitor.setMaximumResolution(monitorDTO.getMaximumResolution());
@@ -182,9 +181,8 @@ public class MonitorController {
 			Product product = ConvertObject.fromProductDTOToProductDAO(monitorDTO.get(i).getProductDTO());
 			product.setCategory(optionalCategory.get());
 			Validate.checkProduct(product);
-			Product saveProduct = productRepository.save(product);
 
-			Monitor newMonitor = new Monitor(saveProduct);
+			Monitor newMonitor = new Monitor(product);
 			newMonitor.setColor(monitorDTO.get(i).getColor());
 			newMonitor.setAspectRatio(monitorDTO.get(i).getAspectRatio());
 			newMonitor.setMaximumResolution(monitorDTO.get(i).getMaximumResolution());

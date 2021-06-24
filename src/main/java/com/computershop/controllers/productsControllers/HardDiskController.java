@@ -146,9 +146,8 @@ public class HardDiskController {
 		Product product = ConvertObject.fromProductDTOToProductDAO(hardDiskDTO.getProductDTO());
 		product.setCategory(optionalCategory.get());
 		Validate.checkProduct(product);
-		Product saveProduct = productRepository.save(product);
 
-		HardDisk newHardDisk = new HardDisk(saveProduct);
+		HardDisk newHardDisk = new HardDisk(product);
 		newHardDisk.setInterfaceType(hardDiskDTO.getInterfaceType());
 		newHardDisk.setCache(hardDiskDTO.getCache());
 		newHardDisk.setCapacity(hardDiskDTO.getCapacity());
@@ -179,9 +178,8 @@ public class HardDiskController {
 			Product product = ConvertObject.fromProductDTOToProductDAO(hardDiskDTO.get(i).getProductDTO());
 			product.setCategory(optionalCategory.get());
 			Validate.checkProduct(product);
-			Product saveProduct = productRepository.save(product);
 
-			HardDisk newHardDisk = new HardDisk(saveProduct);
+			HardDisk newHardDisk = new HardDisk(product);
 			newHardDisk.setInterfaceType(hardDiskDTO.get(i).getInterfaceType());
 			newHardDisk.setCache(hardDiskDTO.get(i).getCache());
 			newHardDisk.setCapacity(hardDiskDTO.get(i).getCapacity());

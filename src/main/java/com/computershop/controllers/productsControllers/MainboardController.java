@@ -146,9 +146,8 @@ public class MainboardController {
 		Product product = ConvertObject.fromProductDTOToProductDAO(mainboardDTO.getProductDTO());
 		product.setCategory(optionalCategory.get());
 		Validate.checkProduct(product);
-		Product saveProduct = productRepository.save(product);
 
-		Mainboard newMainboard = new Mainboard(saveProduct);
+		Mainboard newMainboard = new Mainboard(product);
 		newMainboard.setChipset(mainboardDTO.getChipset());
 		newMainboard.setCpu(mainboardDTO.getCpu());
 		newMainboard.setFormFactors(mainboardDTO.getFormFactors());
@@ -180,9 +179,8 @@ public class MainboardController {
 			Product product = ConvertObject.fromProductDTOToProductDAO(mainboardDTO.get(i).getProductDTO());
 			product.setCategory(optionalCategory.get());
 			Validate.checkProduct(product);
-			Product saveProduct = productRepository.save(product);
 
-			Mainboard newMainboard = new Mainboard(saveProduct);
+			Mainboard newMainboard = new Mainboard(product);
 			newMainboard.setChipset(mainboardDTO.get(i).getChipset());
 			newMainboard.setCpu(mainboardDTO.get(i).getCpu());
 			newMainboard.setFormFactors(mainboardDTO.get(i).getFormFactors());
