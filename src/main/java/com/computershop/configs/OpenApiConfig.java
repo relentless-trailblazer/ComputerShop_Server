@@ -22,7 +22,7 @@ public class OpenApiConfig {
         return new OpenAPI()
                 .servers(listServer)
                 .info(new Info().title("Computer Shop Server")
-                                .description("OpenApi v3 for computer shop server")
+                		 		.description("ComputerShop OpenAPI 3.0")
                                 .contact(new Contact()
                                                  .email("tuanmc2885@gmail.com@gmail.com")
                                                  .name("tuan")
@@ -30,6 +30,6 @@ public class OpenApiConfig {
                                 .license(new License()
                                                  .name("Apache 2.0")
                                                  .url("http://www.apache.org/licenses/LICENSE-2.0.html"))
-                                				 .version("1.0.0"));
+                                .version("3.0.0"));
     }
 }

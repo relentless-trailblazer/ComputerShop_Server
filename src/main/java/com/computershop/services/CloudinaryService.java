@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.computershop.dao.Product;
 import com.computershop.dao.ProductImage;
+import com.computershop.dto.CloudinaryImage;
 import com.computershop.repositories.ProductImageRepository;
 
 @Service
@@ -73,6 +75,19 @@ public class CloudinaryService {
             productImages.add(newProductImage);
         }
     	return productImages;
+    }
+    
+    
+    public List<CloudinaryImage> uploadMultiFiles(MultipartFile[] files) {
+    	List<CloudinaryImage> imagesInfo = new LinkedList<>();
+    	for (int i = 0; i < files.length; i++) {
+    		Map<?, ?> uploadResult = uploadFile(files[i]);
+    		CloudinaryImage cloudinaryImage = new CloudinaryImage();
+    		cloudinaryImage.setImageLink(uploadResult.get("url").toString());
+    		cloudinaryImage.setPublicId(uploadResult.get("public_id").toString());
+    		imagesInfo.add(cloudinaryImage);
+        }
+    	return imagesInfo;
     }
     
     public List<ProductImage> deleteProductImageByProduct(Product product) throws IOException {
