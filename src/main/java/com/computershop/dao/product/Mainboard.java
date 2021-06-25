@@ -1,11 +1,18 @@
 package com.computershop.dao.product;
 
+import java.sql.Timestamp;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import javax.persistence.Table;
 
+import com.computershop.dao.Category;
+import com.computershop.dao.OrderItem;
 import com.computershop.dao.Product;
+import com.computershop.dao.ProductImage;
+import com.computershop.dao.ProductRating;
 
 @Entity
 @Table(name = "Mainboards")
@@ -99,4 +106,10 @@ public class Mainboard extends Product {
 		OSs = oSs;
 	}
 
+	public Mainboard() {
+		
+	}
+	
+
+	
 }
