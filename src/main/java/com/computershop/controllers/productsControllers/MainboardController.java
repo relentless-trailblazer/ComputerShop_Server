@@ -197,9 +197,9 @@ public class MainboardController {
 		
 	}
 	
-	@PatchMapping({"id"})
+	@PatchMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> editGraPhicCardById(@RequestBody MainboardDTO mainboardDTO, @PathVariable("id") Long id) {
+	public ResponseEntity<?> editMainboardById(@RequestBody MainboardDTO mainboardDTO, @PathVariable("id") Long id) {
 		Optional<Mainboard> optionalMainboard = mainboardRepository.findById(id);
 		if (!optionalMainboard.isPresent()) {
 			throw new NotFoundException("Mainboard not found");
@@ -232,7 +232,14 @@ public class MainboardController {
 			newMainboard.setAmount(mainboardDTO.getProductDTO().getAmount());
 			newProduct.setAmount(mainboardDTO.getProductDTO().getAmount());
 		}
-		
+		if (mainboardDTO.getProductDTO().getWarranty() != null) {
+			newMainboard.setWarranty(mainboardDTO.getProductDTO().getWarranty().trim().replaceAll("\\s+", " "));
+			newProduct.setWarranty(mainboardDTO.getProductDTO().getWarranty().trim().replaceAll("\\s+", " "));
+		}
+		if (mainboardDTO.getProductDTO().getSaleOff() != null) {
+			newMainboard.setSaleOff(mainboardDTO.getProductDTO().getSaleOff());
+			newProduct.setSaleOff(mainboardDTO.getProductDTO().getSaleOff());
+		}
 		if(mainboardDTO.getAccessories()!=null) {
 			newMainboard.setAccessories(mainboardDTO.getAccessories().trim().replaceAll("\\s+", " "));
 		}
@@ -258,7 +265,7 @@ public class MainboardController {
 	
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> deleteMainboard(@PathVariable("id") Long id) {
+	public ResponseEntity<?> deleteMainboardById(@PathVariable("id") Long id) {
 		Optional<Mainboard> optionalMainboard = mainboardRepository.findById(id);
 		if (!optionalMainboard.isPresent()) {
 			throw new NotFoundException("Mainboard not found");

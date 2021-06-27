@@ -203,7 +203,7 @@ public class CaseController {
 
 	@PatchMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> editCase(@RequestBody CaseDTO caseDTO, @PathVariable("id") Long id) {
+	public ResponseEntity<?> editCaseById(@RequestBody CaseDTO caseDTO, @PathVariable("id") Long id) {
 		Optional<Case> optionalCase = caseRepository.findById(id);
 		if (!optionalCase.isPresent()) {
 			throw new NotFoundException("Case not found");
@@ -236,6 +236,14 @@ public class CaseController {
 			newCase.setAmount(caseDTO.getProductDTO().getAmount());
 			newProduct.setAmount(caseDTO.getProductDTO().getAmount());
 		}
+		if (caseDTO.getProductDTO().getWarranty() != null) {
+			newCase.setWarranty(caseDTO.getProductDTO().getWarranty().trim().replaceAll("\\s+", " "));
+			newProduct.setWarranty(caseDTO.getProductDTO().getWarranty().trim().replaceAll("\\s+", " "));
+		}
+		if (caseDTO.getProductDTO().getSaleOff() != null) {
+			newCase.setSaleOff(caseDTO.getProductDTO().getSaleOff());
+			newProduct.setSaleOff(caseDTO.getProductDTO().getSaleOff());
+		}
 		if (caseDTO.getColor() != null) {
 			newCase.setColor(caseDTO.getColor().trim().replaceAll("\\s+", " "));
 		}
@@ -261,7 +269,7 @@ public class CaseController {
 	
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-    public ResponseEntity<?> deleteCase(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteCaseById(@PathVariable("id") Long id) {
         Optional<Case> optionalCase = caseRepository.findById(id);
         if (!optionalCase.isPresent()) {
             throw new NotFoundException("Case not found");

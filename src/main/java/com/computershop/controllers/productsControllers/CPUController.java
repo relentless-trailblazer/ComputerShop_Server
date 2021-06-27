@@ -209,7 +209,7 @@ public class CPUController {
 	
 	@PatchMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> editCPU(@RequestBody CPUDTO cpuDTO, @PathVariable("id") Long id) {
+	public ResponseEntity<?> editCPUById(@RequestBody CPUDTO cpuDTO, @PathVariable("id") Long id) {
 		Optional<CPU> optionalCpu = cpuRepository.findById(id);
 		if (!optionalCpu.isPresent()) {
 			throw new NotFoundException("CPU not found");
@@ -241,6 +241,14 @@ public class CPUController {
 		if (cpuDTO.getProductDTO().getAmount() != null) {
 			newCPU.setAmount(cpuDTO.getProductDTO().getAmount());
 			newProduct.setAmount(cpuDTO.getProductDTO().getAmount());
+		}
+		if (cpuDTO.getProductDTO().getWarranty() != null) {
+			newCPU.setWarranty(cpuDTO.getProductDTO().getWarranty().trim().replaceAll("\\s+", " "));
+			newProduct.setWarranty(cpuDTO.getProductDTO().getWarranty().trim().replaceAll("\\s+", " "));
+		}
+		if (cpuDTO.getProductDTO().getSaleOff() != null) {
+			newCPU.setSaleOff(cpuDTO.getProductDTO().getSaleOff());
+			newProduct.setSaleOff(cpuDTO.getProductDTO().getSaleOff());
 		}
 		if (cpuDTO.getCodeName() != null) {
 			newCPU.setCodeName(cpuDTO.getCodeName().trim().replaceAll("\\s+", " "));
@@ -283,7 +291,7 @@ public class CPUController {
 	
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> deleteCase(@PathVariable("id") Long id) {
+	public ResponseEntity<?> deleteCPUById(@PathVariable("id") Long id) {
 		Optional<CPU> optionalCPU = cpuRepository.findById(id);
 		if (!optionalCPU.isPresent()) {
 			throw new NotFoundException("Product not found");

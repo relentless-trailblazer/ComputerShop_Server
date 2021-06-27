@@ -197,9 +197,9 @@ public class PowerSupplyController {
 		
 	}
 
-	@PatchMapping({"id"})
+	@PatchMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> editGraPhicCardById(@RequestBody PowerSupplyDTO powerSupplyDTO, @PathVariable("id") Long id) {
+	public ResponseEntity<?> editPowerSupplyById(@RequestBody PowerSupplyDTO powerSupplyDTO, @PathVariable("id") Long id) {
 		Optional<PowerSupply> optionalPowerSupply = powerSupplyRepos.findById(id);
 		if (!optionalPowerSupply.isPresent()) {
 			throw new NotFoundException("PowerSupply not found");
@@ -232,6 +232,14 @@ public class PowerSupplyController {
 			newPowerSupply.setAmount(powerSupplyDTO.getProductDTO().getAmount());
 			newProduct.setAmount(powerSupplyDTO.getProductDTO().getAmount());
 		}
+		if (powerSupplyDTO.getProductDTO().getWarranty() != null) {
+			newPowerSupply.setWarranty(powerSupplyDTO.getProductDTO().getWarranty().trim().replaceAll("\\s+", " "));
+			newProduct.setWarranty(powerSupplyDTO.getProductDTO().getWarranty().trim().replaceAll("\\s+", " "));
+		}
+		if (powerSupplyDTO.getProductDTO().getSaleOff() != null) {
+			newPowerSupply.setSaleOff(powerSupplyDTO.getProductDTO().getSaleOff());
+			newProduct.setSaleOff(powerSupplyDTO.getProductDTO().getSaleOff());
+		}
 		if(powerSupplyDTO.getConnectorType()!=null) {
 			newPowerSupply.setConnectorType(powerSupplyDTO.getConnectorType().trim().replaceAll("\\s+", " "));
 		}
@@ -255,7 +263,7 @@ public class PowerSupplyController {
 	
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> deletePowerSupply(@PathVariable("id") Long id) {
+	public ResponseEntity<?> deletePowerSupplyById(@PathVariable("id") Long id) {
 		Optional<PowerSupply> optionalPowerSupply = powerSupplyRepos.findById(id);
 		if (!optionalPowerSupply.isPresent()) {
 			throw new NotFoundException("PowerSupply not found");

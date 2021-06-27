@@ -195,9 +195,9 @@ public class GraphicCardController {
 		
 	}
 	
-	@PatchMapping({"id"})
+	@PatchMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> editGraPhicCardById(@RequestBody GraphicCardDTO graphicCardDTO, @PathVariable("id") Long id) {
+	public ResponseEntity<?> editGraphicCardById(@RequestBody GraphicCardDTO graphicCardDTO, @PathVariable("id") Long id) {
 		Optional<GraphicCard> optionalGraphicCard = graphicCardRepository.findById(id);
 		if (!optionalGraphicCard.isPresent()) {
 			throw new NotFoundException("GraphicCard not found");
@@ -230,6 +230,14 @@ public class GraphicCardController {
 			newGraphicCard.setAmount(graphicCardDTO.getProductDTO().getAmount());
 			newProduct.setAmount(graphicCardDTO.getProductDTO().getAmount());
 		}
+		if (graphicCardDTO.getProductDTO().getWarranty() != null) {
+			newGraphicCard.setWarranty(graphicCardDTO.getProductDTO().getWarranty().trim().replaceAll("\\s+", " "));
+			newProduct.setWarranty(graphicCardDTO.getProductDTO().getWarranty().trim().replaceAll("\\s+", " "));
+		}
+		if (graphicCardDTO.getProductDTO().getSaleOff() != null) {
+			newGraphicCard.setSaleOff(graphicCardDTO.getProductDTO().getSaleOff());
+			newProduct.setSaleOff(graphicCardDTO.getProductDTO().getSaleOff());
+		}
 		if(graphicCardDTO.getDimensions() != null) {
 			newGraphicCard.setDimensions(graphicCardDTO.getDimensions().trim().replaceAll("\\s+", " "));
 		}
@@ -252,7 +260,7 @@ public class GraphicCardController {
 	
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> deleteGraphicCard(@PathVariable("id") Long id) {
+	public ResponseEntity<?> deleteGraphicCardById(@PathVariable("id") Long id) {
 		Optional<GraphicCard> optionalGraphicCard = graphicCardRepository.findById(id);
 		if (!optionalGraphicCard.isPresent()) {
 			throw new NotFoundException("Graphic card not found");

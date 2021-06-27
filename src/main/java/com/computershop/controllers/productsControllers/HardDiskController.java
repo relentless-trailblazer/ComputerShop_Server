@@ -160,7 +160,7 @@ public class HardDiskController {
 	
 	@PostMapping("/hard-disks-collection")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> createNewhardDisks(@RequestBody List<HardDiskDTO> hardDiskDTO) {
+	public ResponseEntity<?> createNewHardDisks(@RequestBody List<HardDiskDTO> hardDiskDTO) {
 		List<HardDisk> listHardDisk = new LinkedList<HardDisk>();
 		for(int i = 0; i < hardDiskDTO.size(); i++) {
 			Product oldProduct = productRepository.findByName(hardDiskDTO.get(i).getProductDTO().getName());
@@ -195,9 +195,9 @@ public class HardDiskController {
 		
 	}
 	
-	@PatchMapping({"id"})
+	@PatchMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> editGraPhicCardById(@RequestBody HardDiskDTO hardDiskDTO, @PathVariable("id") Long id) {
+	public ResponseEntity<?> editHardDiskById(@RequestBody HardDiskDTO hardDiskDTO, @PathVariable("id") Long id) {
 		Optional<HardDisk> optionalHardDisk = hardDiskRepository.findById(id);
 		if (!optionalHardDisk.isPresent()) {
 			throw new NotFoundException("HardDisk not found");
@@ -230,6 +230,14 @@ public class HardDiskController {
 			newHardDisk.setAmount(hardDiskDTO.getProductDTO().getAmount());
 			newProduct.setAmount(hardDiskDTO.getProductDTO().getAmount());
 		}
+		if (hardDiskDTO.getProductDTO().getWarranty() != null) {
+			newHardDisk.setWarranty(hardDiskDTO.getProductDTO().getWarranty().trim().replaceAll("\\s+", " "));
+			newProduct.setWarranty(hardDiskDTO.getProductDTO().getWarranty().trim().replaceAll("\\s+", " "));
+		}
+		if (hardDiskDTO.getProductDTO().getSaleOff() != null) {
+			newHardDisk.setSaleOff(hardDiskDTO.getProductDTO().getSaleOff());
+			newProduct.setSaleOff(hardDiskDTO.getProductDTO().getSaleOff());
+		}
 		if(hardDiskDTO.getCache()!=null) {
 			newHardDisk.setCache(hardDiskDTO.getCache().trim().replaceAll("\\s+", " "));
 		}
@@ -252,7 +260,7 @@ public class HardDiskController {
 	
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> deleteHardDisk(@PathVariable("id") Long id) {
+	public ResponseEntity<?> deleteHardDiskByid(@PathVariable("id") Long id) {
 		Optional<HardDisk> optionalHardDisk = hardDiskRepository.findById(id);
 		if (!optionalHardDisk.isPresent()) {
 			throw new NotFoundException("HardDisk not found");

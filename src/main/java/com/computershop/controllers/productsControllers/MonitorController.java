@@ -200,9 +200,9 @@ public class MonitorController {
 
 	}
 
-	@PatchMapping({ "id" })
+	@PatchMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> editGraPhicCardById(@RequestBody MonitorDTO monitorDTO,
+	public ResponseEntity<?> editMonitorById(@RequestBody MonitorDTO monitorDTO,
 			@PathVariable("id") Long id) {
 		Optional<Monitor> optionalMonitor = monitorRepository.findById(id);
 		if (!optionalMonitor.isPresent()) {
@@ -236,6 +236,14 @@ public class MonitorController {
 			newMonitor.setAmount(monitorDTO.getProductDTO().getAmount());
 			newProduct.setAmount(monitorDTO.getProductDTO().getAmount());
 		}
+		if (monitorDTO.getProductDTO().getWarranty() != null) {
+			newMonitor.setWarranty(monitorDTO.getProductDTO().getWarranty().trim().replaceAll("\\s+", " "));
+			newProduct.setWarranty(monitorDTO.getProductDTO().getWarranty().trim().replaceAll("\\s+", " "));
+		}
+		if (monitorDTO.getProductDTO().getSaleOff() != null) {
+			newMonitor.setSaleOff(monitorDTO.getProductDTO().getSaleOff());
+			newProduct.setSaleOff(monitorDTO.getProductDTO().getSaleOff());
+		}
 		if (monitorDTO.getColor() != null) {
 			newMonitor.setColor(monitorDTO.getColor().trim().replaceAll("\\s+", " "));
 		}
@@ -264,7 +272,7 @@ public class MonitorController {
 	
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> deleteMonitor(@PathVariable("id") Long id) {
+	public ResponseEntity<?> deleteMonitorById(@PathVariable("id") Long id) {
 		Optional<Monitor> optionalMonitor = monitorRepository.findById(id);
 		if (!optionalMonitor.isPresent()) {
 			throw new NotFoundException("Monitor not found");

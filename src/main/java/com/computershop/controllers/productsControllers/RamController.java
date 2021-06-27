@@ -204,7 +204,7 @@ public class RamController {
 	
 	@PatchMapping("/{id}")
 	@PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-	public ResponseEntity<?> editRam(@RequestBody RamDTO ramDTO, @PathVariable("id") Long id) {
+	public ResponseEntity<?> editRamById(@RequestBody RamDTO ramDTO, @PathVariable("id") Long id) {
 		Optional<Ram> optionalRam = ramRepository.findById(id);
 		if (!optionalRam.isPresent()) {
 			throw new NotFoundException("Ram not found");
@@ -237,6 +237,14 @@ public class RamController {
 			newRam.setAmount(ramDTO.getProductDTO().getAmount());
 			newProduct.setAmount(ramDTO.getProductDTO().getAmount());
 		}
+		if (ramDTO.getProductDTO().getWarranty() != null) {
+			newRam.setWarranty(ramDTO.getProductDTO().getWarranty().trim().replaceAll("\\s+", " "));
+			newProduct.setWarranty(ramDTO.getProductDTO().getWarranty().trim().replaceAll("\\s+", " "));
+		}
+		if (ramDTO.getProductDTO().getSaleOff() != null) {
+			newRam.setSaleOff(ramDTO.getProductDTO().getSaleOff());
+			newProduct.setSaleOff(ramDTO.getProductDTO().getSaleOff());
+		}
 		if (ramDTO.getPartNumber() != null) {
 			newRam.setPartNumber(ramDTO.getPartNumber().trim().replaceAll("\\s+", " "));
 		}
@@ -260,7 +268,7 @@ public class RamController {
 	
 	@DeleteMapping("/{id}")
     @PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-    public ResponseEntity<?> deleteRam(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteRamById(@PathVariable("id") Long id) {
         Optional<Ram> optionalRam = ramRepository.findById(id);
         if (!optionalRam.isPresent()) {
             throw new NotFoundException("Product not found");
