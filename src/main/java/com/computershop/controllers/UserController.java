@@ -130,10 +130,40 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
     
+    @PatchMapping("/update-info/{userId}")
+    @PreAuthorize("@authorizeService.authorizeGetUserById(authentication, 'MEMBER', #userId)")
+    public ResponseEntity<?> UpdateInfomations(@RequestBody UserDTO userDTO, @PathVariable("userId") Long userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (!optionalUser.isPresent()) 
+            throw new NotFoundException("User not found");
+        
+        User user = optionalUser.get();
 
+        if (userDTO.getFirstName() != null) 
+            user.setFirstName(userDTO.getFirstName());
+        
+        if (userDTO.getLastName() != null) 
+            user.setLastName(userDTO.getLastName());
+        
+        if (userDTO.getPassword() != null) 
+            user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        
+        if (userDTO.getAddress() != null) 
+            user.setAddress(userDTO.getAddress());
+        
+        if (userDTO.getEmail() != null) 
+            user.setEmail(userDTO.getEmail());
+        
+        if (userDTO.getPhone() != null) 
+            user.setPhone(userDTO.getPhone());
+        
+        userRepository.save(user);
+
+        return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
 
     @DeleteMapping("/{userId}")
-    @PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
+    @PreAuthorize("@authorizeService.authorizeGetUserById(authentication, 'ADMIN', #userId)")
     public ResponseEntity<?> deleteUser(@PathVariable("userId") Long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (!optionalUser.isPresent()) {

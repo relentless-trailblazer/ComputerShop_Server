@@ -27,6 +27,8 @@ import com.computershop.exceptions.NotFoundException;
 import com.computershop.repositories.DeliveryRepository;
 import com.computershop.repositories.SaleOrderRepository;
 
+//Chua Xu Ly
+
 @RestController
 @RequestMapping(value = "/api/sale-orders")
 public class SaleOrderController {
@@ -36,7 +38,6 @@ public class SaleOrderController {
 	@Autowired
 	private DeliveryRepository deliveryRepository;
 	
-	// ok
 	@GetMapping
 	public ResponseEntity<?> getAllSaleOrders(@RequestParam(name = "search", required = false) Long saleOrderId,
 	                                          @RequestParam(name = "deliveryId", required = false) Long deliveryId,

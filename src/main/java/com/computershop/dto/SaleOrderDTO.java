@@ -3,16 +3,14 @@ package com.computershop.dto;
 public class SaleOrderDTO {
 	private Long userId;
 	private Long saleOrderId;
-	private Long totalAmount;
 
 	public SaleOrderDTO() {
 	}
 
-	public SaleOrderDTO(Long userId, Long saleOrderId, Long totalAmount) {
+	public SaleOrderDTO(Long userId, Long saleOrderId) {
 		super();
 		this.userId = userId;
 		this.saleOrderId = saleOrderId;
-		this.totalAmount = totalAmount;
 	}
 
 	public Long getSaleOrderId() {
@@ -29,14 +27,6 @@ public class SaleOrderDTO {
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
-	}
-
-	public Long getTotalAmount() {
-		return totalAmount;
-	}
-
-	public void setTotalAmount(Long totalAmount) {
-		this.totalAmount = totalAmount;
 	}
 
 }

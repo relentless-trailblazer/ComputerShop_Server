@@ -38,8 +38,7 @@ public class NewsController {
 	
 	
 	@GetMapping
-	public ResponseEntity<?> getAllNews(@RequestParam(name = "page", required = false) Integer pageNum,
-            @RequestParam(name = "search", required = false) String search) {
+	public ResponseEntity<?> getAllNews(@RequestParam(name = "page", required = false) Integer pageNum) {
 		if (pageNum != null) {
 			Page<News> page = newsRepository.findAll(PageRequest.of(pageNum.intValue(), 10));
 			if (page.getNumberOfElements() == 0) {

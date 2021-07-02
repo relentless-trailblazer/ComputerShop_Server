@@ -32,6 +32,9 @@ import com.computershop.repositories.OrderItemRepository;
 import com.computershop.repositories.SaleOrderRepository;
 import com.computershop.repositories.UserRepository;
 
+//Chua Xu Ly
+
+
 @RestController
 @RequestMapping(value = "/api/orders")
 public class OrderController {
@@ -136,8 +139,6 @@ public class OrderController {
             currentProduct.setQuantitySold(currentProduct.getQuantitySold() + currentQuantity);
             currentProduct.setAmount(currentProduct.getAmount() - currentQuantity);
         }
-
-        
 
         Delivery deliveryWaitConfirm = deliveryRepository.findByIndex("ChoXacNhan");
 

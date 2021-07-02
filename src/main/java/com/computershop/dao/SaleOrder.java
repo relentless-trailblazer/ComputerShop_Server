@@ -37,6 +37,7 @@ public class SaleOrder {
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
+	@JsonIgnore
 	private User user;
 
 	@ManyToOne

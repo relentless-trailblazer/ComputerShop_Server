@@ -105,10 +105,10 @@ public class ProductController {
     }
     @DeleteMapping("/{id}")
     @PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
-    public ResponseEntity<?> deleteCase(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
         if (!optionalProduct.isPresent()) {
-            throw new NotFoundException("Case not found");
+            throw new NotFoundException("Product not found");
         }
 
         if (!optionalProduct.get().getProductImages().isEmpty()) {
