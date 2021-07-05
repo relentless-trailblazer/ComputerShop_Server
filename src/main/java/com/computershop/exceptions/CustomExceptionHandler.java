@@ -10,13 +10,31 @@ import org.springframework.web.context.request.WebRequest;
 public class CustomExceptionHandler {
 	@ExceptionHandler(NotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ErrorResponse handleNotFoundExcetion(NotFoundException ex, WebRequest req) {
-		return new ErrorResponse(404, ex.getMessage());
+	public ErrorResponse handleNotFoundException(NotFoundException ex, WebRequest req) {
+		return new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
 	}
 
-	@ExceptionHandler(DuplicateException.class)
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public ErrorResponse handleException(Exception ex, WebRequest req) {
+		return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
+	}
+
+	@ExceptionHandler(InvalidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ErrorResponse handleDuplicateExcetion(NotFoundException ex, WebRequest req) {
-		return new ErrorResponse(400, ex.getMessage());
+	public ErrorResponse handleInvalidException(InvalidException ex, WebRequest req) {
+		return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+	}
+
+	@ExceptionHandler(ForbiddenException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	public ErrorResponse handleForbiddenException(ForbiddenException ex, WebRequest req) {
+		return new ErrorResponse(HttpStatus.FORBIDDEN.value(), ex.getMessage());
+	}
+
+	@ExceptionHandler(LoginException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ErrorResponse handleLoginException(LoginException ex, WebRequest req) {
+		return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
 	}
 }

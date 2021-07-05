@@ -23,9 +23,9 @@ public class ConvertObject {
 				.replaceAll("[^\\w\\-]+", "").replaceAll("\\-\\-+", "-").replaceAll("^-+", "").replaceAll("-+$", "");
 	}
     public static User fromSignUpDTOToUserDAO(SignUpDTO signUpDTO) {
-//        if (!Validate.checkSignUp(signUpDTO)) {
-//            return null;
-//        }
+        if (!Validate.checkSignUp(signUpDTO)) {
+            return null;
+        }
         User user = new User();
         user.setFirstName(signUpDTO.getFirstName().trim().replaceAll("\\s+", " "));
         user.setLastName(signUpDTO.getLastName().trim().replaceAll("\\s+", " "));

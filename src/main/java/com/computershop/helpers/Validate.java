@@ -9,9 +9,11 @@ import com.computershop.dto.UserDTO;
 //import com.computershop.dto.UserDTO;
 import com.computershop.exceptions.InvalidException;
 
+
+
 public class Validate {
 	private static final String regexUsername = "^[a-zA-Z0-9]+([._]?[a-zA-Z0-9]+)*$";
-	private static final String regexPassword = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d@$!%*#?&_]{8,}$";
+	private static final String regexPassword = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
 	private static final String regexEmail = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
 	private static final String regexPhone = "^[0-9\\-\\+]{9,15}$";
 
