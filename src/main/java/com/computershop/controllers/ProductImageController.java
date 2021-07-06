@@ -231,7 +231,7 @@ public class ProductImageController {
     @Transactional(rollbackFor = Exception.class)
     @PreAuthorize("@authorizeService.authorizeAdmin(authentication, 'ADMIN')")
     public ResponseEntity<?> createNewImages(@RequestParam("productId") Long productId,
-                                             @RequestParam("files") MultipartFile[] files) throws IOException {
+                                             @RequestBody MultipartFile[] files) throws IOException {
         
         Optional<Product> optionalProduct = productRepository.findById(productId);
         if (!optionalProduct.isPresent()) {
