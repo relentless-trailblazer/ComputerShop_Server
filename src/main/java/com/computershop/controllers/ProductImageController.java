@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.computershop.dao.Category;
 //import com.cloudinary.Cloudinary;
 import com.computershop.dao.Product;
 import com.computershop.dao.ProductImage;
@@ -132,10 +131,14 @@ public class ProductImageController {
 		}
 		
 		if(category!=null) {
-			Optional<Category> optionalCategory = categoryRepository.findByNameContainingIgnoreCase(ConvertObject.fromSlugToString(category));
-			List<Product> productsFoundByCategory = productRepository.findByCategory(optionalCategory.get());
-			
-			if(productsFoundByCategory.size()==0)
+			List<com.computershop.dao.Category> categories = categoryRepository.findByNameContainingIgnoreCase(ConvertObject.fromSlugToString(category));
+				
+			for (com.computershop.dao.Category cat : categories) {
+		       for(Product prd : cat.getProducts()) {
+		       		products.add(prd);
+		       }    
+			}
+			if(products.size()==0)
 				throw new NotFoundException("Not found product with category " + category);
 			
 			List<ProductWithImage> productsWithImages = new ArrayList<ProductWithImage>();
