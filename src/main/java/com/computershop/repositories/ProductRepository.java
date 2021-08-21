@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 //import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.computershop.dao.Category;
 import com.computershop.dao.Product;
 
 @Repository
@@ -21,10 +22,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	List<Product> findAllByQuantitySoldByDesc();
 	
 	
+	List<Product> findByCategory(Category category);
 	
 	
-//	void deleteById(Optional<Case> optionalCase);
-	
-//	Optional<Product> findById(Long id);
+	void deleteById(Long id);
+
 
 }

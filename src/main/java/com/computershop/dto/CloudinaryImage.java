@@ -32,5 +32,4 @@ public class CloudinaryImage {
 		this.productId = productId;
 	}
 	
-	
 }
