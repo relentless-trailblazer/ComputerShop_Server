@@ -112,7 +112,7 @@ public class ProductController {
     // add method getAllByCategories
     @GetMapping("/categories/{category}")
     public ResponseEntity<?> getAllProductsByCaterogy(@PathVariable("category") String category) {
-    	Optional<Category> optionalCategory = categoryRepository.findByNameContainingIgnoreCase(category);
+    	Optional<Category> optionalCategory = categoryRepository.findByNameContainingIgnoreCase(ConvertObject.fromSlugToString(category));
     	if(optionalCategory.get() == null) {
     		throw new NotFoundException("Category with name " + category + " doesn't exists");
     	}
